@@ -13,13 +13,18 @@
             theme: {
                 extend: {
                     colors: {
-                        'brand-primary': '#6a7766', // Verde Suave
-                        'brand-secondary': '#d4afa6', // Bege/Rosa Claro
-                        'brand-accent': '#b08d57', // Dourado
-                        'brand-text': '#2a2a2a', // Cinza Escuro para texto principal (melhor contraste)
-                        'brand-light-text': '#555555', // Cinza Médio para texto secundário
-                        'brand-bg-light': '#f9f5f2', // Bege muito claro para fundos de seção
-                        'brand-bg-white': '#ffffff',
+                        'brand-primary': '#997D6C', // Marrom Médio Aconchegante
+                        'brand-secondary': '#9E8F7D', // Bege Acinzentado Suave
+                        'brand-accent': '#513F32', // Marrom Escuro Intenso (para CTAs e destaques fortes)
+                        'brand-text': '#513F32', // Marrom Escuro Intenso (para texto principal)
+                        'brand-light-text': '#513F32', // Marrom Escuro Intenso (para texto secundário, garantindo contraste)
+                        'brand-bg-light': '#E6E0D9', // Branco Acinzentado Sutil (para fundos de seção)
+                        'brand-bg-white': '#ffffff', // Branco puro
+                        // NOTA DE ACESSIBILIDADE:
+                        // A cor 'brand-primary' (#997D6C) quando usada como TEXTO sobre 'brand-bg-light' (#E6E0D9)
+                        // resulta em baixo contraste (2.03:1), o que não é ideal para leitura.
+                        // Para títulos (como H2) em seções com fundo 'brand-bg-light' (ex: Sobre, Pacotes, Contato),
+                        // considere usar a classe 'text-brand-text' (que usa #513F32) para garantir melhor acessibilidade.
                     },
                     fontFamily: {
                         'heading': ['Playfair Display', 'serif'],
@@ -39,12 +44,12 @@
     <style>
         body {
             font-family: 'Montserrat', sans-serif;
-            color: #2a2a2a; /* Usando a nova cor de texto principal */
+            color: #513F32; /* Usando a nova cor de texto principal (#513F32) */
             line-height: 1.6; /* Melhorar legibilidade */
         }
         h1, h2, h3, h4, h5, h6 {
             font-family: 'Playfair Display', serif;
-            color: #333333; /* Títulos um pouco mais escuros para destaque */
+            /* A cor dos títulos virá das classes Tailwind (ex: text-brand-primary ou text-brand-text) */
         }
         /* Ajuste de padding para seções, mais flexível em mobile e maior em desktop */
         .section-padding {
@@ -94,20 +99,21 @@
         .modal-content button {
             margin-top: 1.5rem;
             padding: 0.75rem 2rem;
-            background-color: #6a7766; /* Cor primária para o botão */
+            background-color: '#997D6C'; /* Cor primária para o botão (brand-primary) */
             color: white;
             border-radius: 0.5rem;
             transition: background-color 0.3s ease;
         }
         .modal-content button:hover {
-            background-color: #5a6756; /* Tom mais escuro no hover */
+            /* Idealmente, defina um tom mais escuro de #997D6C ou use brand-accent #513F32 */
+            filter: brightness(0.9);
         }
 
         /* Custom scrollbar for a more refined look */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #f1f1f1; }
-        ::-webkit-scrollbar-thumb { background: #6a7766; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #576352; }
+        ::-webkit-scrollbar-thumb { background: #997D6C; border-radius: 4px; } /* brand-primary */
+        ::-webkit-scrollbar-thumb:hover { background: #513F32; } /* brand-accent or darker primary */
         html { scroll-behavior: smooth; }
 
         /* Style for number input to hide spinners */
@@ -121,7 +127,6 @@
         }
 
         /* Custom style for hero section to fill screen minus header */
-        /* Adjusted to be more robust for different header heights */
         .min-h-screen-minus-header {
             min-height: calc(100vh - 96px); /* Default height for desktop */
         }
@@ -133,52 +138,52 @@
 
         /* Navbar scrolled state */
         .scrolled-nav {
-            background-color: #ffffff;
+            background-color: #ffffff; /* brand-bg-white */
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             padding-top: 1rem;
             padding-bottom: 1rem;
         }
         .scrolled-nav .nav-link {
-            color: #2a2a2a; /* brand-text */
+            color: #513F32; /* brand-text */
         }
         .scrolled-nav .site-name-text {
-            color: #6a7766; /* brand-primary */
+            color: #997D6C; /* brand-primary */
         }
-        /* Ensures the mobile menu button changes color */
         .scrolled-nav #mobileMenuButton {
-            color: #2a2a2a !important; /* Force color to main text */
+            color: #513F32 !important; /* brand-text */
         }
-        /* Ensures icons within the mobile menu button change color */
         .scrolled-nav #mobileMenuButton svg {
-            stroke: currentColor; /* Use parent text color */
+            stroke: currentColor;
         }
-        /* Adjusts mobile menu links when scrolled */
         .scrolled-nav #mobileMenu {
-            background-color: #ffffff; /* White background for mobile menu when scrolled */
-            border-bottom-left-radius: 1rem; /* Rounded corners */
+            background-color: #ffffff; /* brand-bg-white */
+            border-bottom-left-radius: 1rem;
             border-bottom-right-radius: 1rem;
         }
         .scrolled-nav #mobileMenu .nav-link {
-            color: #2a2a2a; /* brand-text */
+            color: #513F32; /* brand-text */
         }
+        #mainNavbar.bg-transparent #mobileMenu { /* Mobile menu initial background */
+             background-color: rgba(153, 125, 108, 0.95); /* Cor brand-primary (#997D6C) com opacidade */
+        }
+
 
         /* Custom style for the "Mais Popular" badge */
         .popular-badge {
-            background: linear-gradient(to right, #b08d57, #d4afa6); /* Gradient from brand-accent to brand-secondary */
-            border-radius: 0.5rem; /* More rounded corners */
-            padding: 0.25rem 0.75rem; /* Adjusted padding */
-            font-size: 0.75rem; /* Smaller font size */
+            /* Gradient from brand-accent (#513F32) to brand-secondary (#9E8F7D) */
+            background: linear-gradient(to right, #513F32, #9E8F7D);
+            border-radius: 0.5rem;
+            padding: 0.25rem 0.75rem;
+            font-size: 0.75rem;
             font-weight: bold;
-            color: white;
+            color: white; /* Text color for the badge - white is good on #513F32, but check contrast on #9E8F7D */
             text-transform: uppercase;
             letter-spacing: 0.05em;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
     </style>
 </head>
-<body class="bg-brand-bg-white font-body">
-
-    <div id="confirmationModal" class="modal-overlay hidden">
+<body class="bg-brand-bg-white font-body"> <div id="confirmationModal" class="modal-overlay hidden">
         <div class="modal-content">
             <h3 class="text-xl font-heading text-brand-primary mb-4">Obrigada pelo seu contato!</h3>
             <p class="text-brand-text">Em breve retornarei. (Esta é uma demonstração, o formulário não envia dados reais.)</p>
@@ -190,13 +195,13 @@
         <div class="container mx-auto px-6 flex justify-between items-center">
             <a href="#home" class="text-2xl font-heading font-bold site-name-text text-white transition-colors duration-300">Kah Siqueira</a>
             <nav class="hidden md:flex space-x-6">
-                <a href="#home" class="nav-link text-gray-100 hover:text-brand-accent transition-colors duration-300">Início</a>
-                <a href="#about" class="nav-link text-gray-100 hover:text-brand-accent transition-colors duration-300">Sobre Mim</a>
-                <a href="#services" class="nav-link text-gray-100 hover:text-brand-accent transition-colors duration-300">Serviços</a>
-                <a href="#packages" class="nav-link text-gray-100 hover:text-brand-accent transition-colors duration-300">Pacotes</a>
-                <a href="#calculator" class="nav-link text-gray-100 hover:text-brand-accent transition-colors duration-300">Calculadora</a>
-                <a href="#faq" class="nav-link text-gray-100 hover:text-brand-accent transition-colors duration-300">FAQ</a>
-                <a href="#contact" class="nav-link text-gray-100 hover:text-brand-accent transition-colors duration-300">Contato</a>
+                <a href="#home" class="nav-link text-gray-100 hover:text-brand-secondary transition-colors duration-300">Início</a>
+                <a href="#about" class="nav-link text-gray-100 hover:text-brand-secondary transition-colors duration-300">Sobre Mim</a>
+                <a href="#services" class="nav-link text-gray-100 hover:text-brand-secondary transition-colors duration-300">Serviços</a>
+                <a href="#packages" class="nav-link text-gray-100 hover:text-brand-secondary transition-colors duration-300">Pacotes</a>
+                <a href="#calculator" class="nav-link text-gray-100 hover:text-brand-secondary transition-colors duration-300">Calculadora</a>
+                <a href="#faq" class="nav-link text-gray-100 hover:text-brand-secondary transition-colors duration-300">FAQ</a>
+                <a href="#contact" class="nav-link text-gray-100 hover:text-brand-secondary transition-colors duration-300">Contato</a>
             </nav>
             <button id="mobileMenuButton" class="md:hidden focus:outline-none text-white transition-colors duration-300" aria-label="Abrir menu móvel">
                 <svg id="hamburgerIcon" class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -207,7 +212,7 @@
                 </svg>
             </button>
         </div>
-        <div id="mobileMenu" class="md:hidden absolute top-full left-0 w-full shadow-lg rounded-b-lg bg-brand-primary bg-opacity-95 hidden">
+        <div id="mobileMenu" class="md:hidden absolute top-full left-0 w-full shadow-lg rounded-b-lg hidden">
             <div class="flex flex-col items-center space-y-4 py-4">
                 <a href="#home" class="nav-link text-white hover:text-brand-accent transition-colors px-4 py-2">Início</a>
                 <a href="#about" class="nav-link text-white hover:text-brand-accent transition-colors px-4 py-2">Sobre Mim</a>
@@ -234,13 +239,11 @@
 
     <section id="about" class="section-padding bg-brand-bg-light">
         <div class="container mx-auto px-6">
-            <h2 class="text-3xl sm:text-4xl font-heading text-brand-primary text-center mb-12">Sobre Mim</h2>
-            <div class="max-w-3xl mx-auto md:flex md:items-center md:space-x-12">
+            <h2 class="text-3xl sm:text-4xl font-heading text-brand-text text-center mb-12">Sobre Mim</h2> <div class="max-w-3xl mx-auto md:flex md:items-center md:space-x-12">
                 <div class="md:w-1/3 mb-8 md:mb-0 flex justify-center items-center">
                     <img src="foto_kah_2.png" alt="Kah Siqueira" class="rounded-full shadow-xl w-64 h-64 md:w-full md:h-auto object-cover border-4 border-brand-secondary">
                 </div>
-                <div class="md:w-2/3 text-brand-light-text space-y-4 text-center md:text-left">
-                    <p class="text-base sm:text-lg">
+                <div class="md:w-2/3 text-brand-light-text space-y-4 text-center md:text-left"> <p class="text-base sm:text-lg">
                         Sou estrategista de social media com mais de 15 anos de experiência no universo do marketing. Ao longo da minha trajetória, mergulhei em diferentes áreas da comunicação digital, sempre com um olhar estratégico e apaixonado pelo que faço.
                     </p>
                     <p class="text-base sm:text-lg">
@@ -249,8 +252,7 @@
                     <p class="text-base sm:text-lg">
                         Levo cada projeto com comprometimento genuíno, buscando sempre superar expectativas e gerar impacto real. Meu trabalho é minha paixão, e é essa energia que me move todos os dias.
                     </p>
-                    <p class="text-base sm:text-lg font-semibold text-brand-primary">
-                        "Meu trabalho é minha paixão, e é essa energia que me move todos os dias."
+                    <p class="text-base sm:text-lg font-semibold text-brand-text"> "Meu trabalho é minha paixão, e é essa energia que me move todos os dias."
                     </p>
                 </div>
             </div>
@@ -265,8 +267,7 @@
             </p>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <div class="bg-brand-bg-white p-6 md:p-8 rounded-xl shadow-lg transition-all duration-300 hover:shadow-2xl border border-gray-200 flex flex-col items-center text-center">
-                    <div class="mb-4 text-brand-accent">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-lightbulb"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1.3.5 2.6 1.5 3.5.8.8 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/><path d="M11 17h2"/><path d="M12 22v-5"/></svg>
+                    <div class="mb-4 text-brand-accent"> <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-lightbulb"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1.3.5 2.6 1.5 3.5.8.8 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/><path d="M11 17h2"/><path d="M12 22v-5"/></svg>
                     </div>
                     <h3 class="text-xl font-heading text-brand-primary mb-3">Estratégia de Mídias Sociais Personalizada</h3>
                     <p class="text-brand-light-text text-sm flex-grow">Desenvolvimento de planos estratégicos alinhados aos seus objetivos de negócio, público-alvo e identidade de marca.</p>
@@ -312,19 +313,15 @@
 
     <section id="packages" class="section-padding bg-brand-bg-light">
         <div class="container mx-auto px-6">
-            <h2 class="text-3xl sm:text-4xl font-heading text-brand-primary text-center mb-4">Pacotes Prontos</h2>
-            <p class="text-base sm:text-lg text-brand-light-text text-center mb-12 max-w-2xl mx-auto">
-                Escolha o pacote que melhor se adapta às suas necessidades e comece a transformar sua presença digital hoje mesmo.
+            <h2 class="text-3xl sm:text-4xl font-heading text-brand-text text-center mb-4">Pacotes Prontos</h2> <p class="text-base sm:text-lg text-brand-light-text text-center mb-12 max-w-2xl mx-auto"> Escolha o pacote que melhor se adapta às suas necessidades e comece a transformar sua presença digital hoje mesmo.
             </p>
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
                 <div class="bg-brand-bg-white p-6 md:p-8 rounded-xl shadow-lg transition-all duration-300 hover:shadow-xl hover:border hover:border-brand-accent/50 flex flex-col">
                     <h3 class="text-2xl font-heading text-brand-primary mb-2 text-center">Pacote Presença Digital</h3>
-                    <p class="text-3xl font-bold text-brand-accent mb-1 text-center">R$ 800</p>
-                    <p class="text-xs text-brand-light-text mb-6 text-center">por mês</p>
+                    <p class="text-3xl font-bold text-brand-accent mb-1 text-center">R$ 800</p> <p class="text-xs text-brand-light-text mb-6 text-center">por mês</p>
                     <ul class="space-y-3 mb-8 flex-grow">
                         <li class="flex items-start text-sm text-brand-light-text">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-brand-primary mr-2 shrink-0">
-                                <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-brand-primary mr-2 shrink-0"> <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
                             </svg>
                             <span>Gerenciamento de 1 plataforma social</span>
                         </li>
@@ -353,8 +350,7 @@
                 </div>
 
                 <div class="bg-brand-bg-white p-6 md:p-8 rounded-xl shadow-lg transition-all duration-300 hover:shadow-xl hover:border hover:border-brand-accent/50 flex flex-col ring-2 ring-brand-accent lg:scale-105">
-                    <div class="popular-badge w-fit mx-auto -mt-6 mb-4">Mais Popular</div>
-                    <h3 class="text-2xl font-heading text-brand-primary mb-2 text-center">Pacote Crescimento Estratégico</h3>
+                    <div class="popular-badge w-fit mx-auto -mt-6 mb-4">Mais Popular</div> <h3 class="text-2xl font-heading text-brand-primary mb-2 text-center">Pacote Crescimento Estratégico</h3>
                     <p class="text-3xl font-bold text-brand-accent mb-1 text-center">R$ 1500</p>
                     <p class="text-xs text-brand-light-text mb-6 text-center">por mês</p>
                     <ul class="space-y-3 mb-8 flex-grow">
@@ -364,7 +360,7 @@
                             </svg>
                             <span>Gerenciamento de 2 plataformas sociais</span>
                         </li>
-                        <li class="flex items-start text-sm text-brand-light-text">
+                         <li class="flex items-start text-sm text-brand-light-text">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-brand-primary mr-2 shrink-0">
                                 <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
                             </svg>
@@ -395,7 +391,7 @@
                             <span>Suporte prioritário</span>
                         </li>
                     </ul>
-                    <a href="#contact" class="font-semibold rounded-lg transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 px-6 py-3 text-base w-full mt-auto bg-brand-accent text-white hover:bg-opacity-90 focus:ring-brand-accent flex items-center justify-center">
+                     <a href="#contact" class="font-semibold rounded-lg transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 px-6 py-3 text-base w-full mt-auto bg-brand-accent text-white hover:bg-opacity-90 focus:ring-brand-accent flex items-center justify-center">
                         Quero Este Pacote
                     </a>
                 </div>
@@ -462,8 +458,7 @@
                     </div>
                 <div class="text-center border-t border-gray-200 pt-8">
                     <h3 class="text-2xl font-heading text-brand-primary mb-2">Total Estimado:</h3>
-                    <p id="totalPriceDisplay" class="text-4xl font-bold text-brand-accent mb-6" aria-live="polite">R$ 0,00</p>
-                    <a href="#contact" class="font-semibold rounded-lg transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 px-6 py-3 text-base sm:px-8 sm:py-4 sm:text-lg bg-brand-accent text-white hover:bg-opacity-90 focus:ring-brand-accent">
+                    <p id="totalPriceDisplay" class="text-4xl font-bold text-brand-accent mb-6" aria-live="polite">R$ 0,00</p> <a href="#contact" class="font-semibold rounded-lg transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 px-6 py-3 text-base sm:px-8 sm:py-4 sm:text-lg bg-brand-accent text-white hover:bg-opacity-90 focus:ring-brand-accent">
                         Solicitar Orçamento
                     </a>
                     <p class="text-xs text-brand-light-text mt-4">Este valor é uma estimativa. O preço final pode variar conforme a complexidade e escopo do projeto.</p>
@@ -474,20 +469,16 @@
 
     <section id="contact" class="section-padding bg-brand-bg-light">
         <div class="container mx-auto px-6 max-w-4xl">
-            <h2 class="text-3xl sm:text-4xl font-heading text-brand-primary text-center mb-4">Entre em Contato</h2>
-            <p class="text-base sm:text-lg text-brand-light-text text-center mb-12 max-w-2xl mx-auto">
-                Vamos conversar sobre como posso ajudar a sua marca a brilhar! Preencha o formulário ou utilize um dos canais abaixo.
+            <h2 class="text-3xl sm:text-4xl font-heading text-brand-text text-center mb-4">Entre em Contato</h2> <p class="text-base sm:text-lg text-brand-light-text text-center mb-12 max-w-2xl mx-auto"> Vamos conversar sobre como posso ajudar a sua marca a brilhar! Preencha o formulário ou utilize um dos canais abaixo.
             </p>
             <div class="md:flex md:space-x-12">
                 <div class="md:w-1/2 mb-10 md:mb-0">
-                    <h3 class="text-2xl font-heading text-brand-primary mb-4">Informações de Contato</h3>
-                    <p class="text-brand-light-text mb-2">Sinta-se à vontade para me contatar diretamente:</p>
+                    <h3 class="text-2xl font-heading text-brand-text mb-4">Informações de Contato</h3> <p class="text-brand-light-text mb-2">Sinta-se à vontade para me contatar diretamente:</p>
                     <ul class="space-y-3 text-brand-light-text mb-6">
                         <li><strong>Email:</strong> <a href="mailto:Katricia.siqueira@gmail.com" class="text-brand-accent hover:underline">Katricia.siqueira@gmail.com</a></li>
                         <li><strong>WhatsApp/Telefone:</strong> <a href="https://wa.me/554598309598" target="_blank" rel="noopener noreferrer" class="text-brand-accent hover:underline">+55 45 9830-9598</a></li>
                     </ul>
-                    <h3 class="text-xl font-heading text-brand-primary mb-2">Siga-me nas redes:</h3>
-                    <div class="flex space-x-4">
+                    <h3 class="text-xl font-heading text-brand-text mb-2">Siga-me nas redes:</h3> <div class="flex space-x-4">
                         <a href="https://instagram.com/eukahsiqueira/" target="_blank" rel="noopener noreferrer" class="text-brand-accent hover:text-brand-primary transition-colors text-sm">Instagram</a>
                     </div>
                     <img src="foto3.png" alt="Detalhe de escritório" class="mt-8 rounded-lg shadow-md object-cover w-full h-auto"/>
@@ -531,8 +522,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                         </svg>
                     </button>
-                    <div id="faq-content-q1" class="pb-5 px-1 text-brand-light-text text-sm hidden">
-                        <p>Um Social Media Estrategista planeja, cria e gerencia a presença online de uma marca nas redes sociais. Isso inclui desenvolver estratégias de conteúdo, analisar métricas, interagir com a audiência e garantir que as ações estejam alinhadas aos objetivos de marketing e negócios da empresa.</p>
+                    <div id="faq-content-q1" class="pb-5 px-1 text-brand-light-text text-sm hidden"> <p>Um Social Media Estrategista planeja, cria e gerencia a presença online de uma marca nas redes sociais. Isso inclui desenvolver estratégias de conteúdo, analisar métricas, interagir com a audiência e garantir que as ações estejam alinhadas aos objetivos de marketing e negócios da empresa.</p>
                     </div>
                 </div>
                 <div class="border-b border-gray-200 py-1">
@@ -583,8 +573,7 @@
         </div>
     </section>
 
-    <footer class="bg-brand-primary text-white py-12 text-center">
-        <div class="container mx-auto px-6">
+    <footer class="bg-brand-primary text-white py-12 text-center"> <div class="container mx-auto px-6">
             <h3 class="text-2xl font-heading mb-4">Kah Siqueira - Social Media Estrategista</h3>
             <p class="mb-2">Transformando ideias em resultados digitais.</p>
             <p class="mb-4"><a href="mailto:Katricia.siqueira@gmail.com" class="hover:text-brand-secondary transition-colors">Katricia.siqueira@gmail.com</a></p>
@@ -597,10 +586,8 @@
     </footer>
 
     <a href="https://wa.me/554598309598" target="_blank" rel="noopener noreferrer" aria-label="Entrar em contato pelo WhatsApp"
-        class="fixed bottom-6 right-6 bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-lg z-50 transition-all duration-300 ease-in-out flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-7 h-7">
-            <path d="M16.6 14.2c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1-.2.2-.6.8-.8.9-.1.1-.3.2-.5.1-.3-.1-.9-.3-1.9-1.1-.7-.7-1.2-1.5-1.4-1.8-.1-.2 0-.4.1-.5.1-.1.2-.2.4-.4.1-.1.2-.2.2-.3.1-.1.1-.3 0-.4-.1-.1-.6-1.3-.8-1.8-.1-.7-.4-.6-.5-.6h-.5c-.2 0-.4.1-.6.3-.2.2-.8.8-.8 1.9 0 1.1.8 2.2 1 2.3.1.1 1.5.7 3.5 2.5 1.8 1.5 2 1.3 2.4 1.2.5-.1.9-.4.8-1 .1-.6-.4-1.1-.6-1.2zM12 2a10 10 0 00-10 10c0 2.2.7 4.2 2 5.8L2.5 21.4l3.7-1.5c1.5.8 3.2 1.2 5 1.2h.1c5.4 0 9.8-4.4 9.8-9.8S17.4 2 12 2z"/>
-        </svg>
+        class="fixed bottom-6 right-6 bg-green-500 hover:bg-green-600 text-white p-3 rounded-full shadow-lg z-50 transition-all duration-300 ease-in-out flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2">
+        <img src="whatsapp-logo.png" alt="Logo do WhatsApp" class="w-8 h-8" onerror="this.alt='Ícone do WhatsApp'; this.src='https://placehold.co/32x32/25D366/FFFFFF?text=W';">
     </a>
 
     <script>
@@ -628,48 +615,57 @@
 
         // Navbar scroll effect
         const mainNavbar = document.getElementById('mainNavbar');
-        const navLinks = document.querySelectorAll('.nav-link');
+        const navLinks = document.querySelectorAll('#mainNavbar nav a.nav-link'); // More specific selector for desktop nav links
         const siteNameText = document.querySelector('.site-name-text');
         const mobileMenuButton = document.getElementById('mobileMenuButton');
-        const mobileMenu = document.getElementById('mobileMenu'); 
+        const mobileMenu = document.getElementById('mobileMenu');
+        const mobileMenuLinks = document.querySelectorAll('#mobileMenu a.nav-link'); // Specific selector for mobile nav links
 
         window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
-                mainNavbar.classList.add('scrolled-nav');
-                navLinks.forEach(link => link.classList.add('text-brand-text'));
-                navLinks.forEach(link => link.classList.remove('text-gray-100'));
-                siteNameText.classList.add('text-brand-primary');
-                siteNameText.classList.remove('text-white');
-                mobileMenu.classList.remove('bg-brand-primary', 'bg-opacity-95');
-                mobileMenu.classList.add('bg-brand-bg-white'); 
-                mobileMenuButton.classList.add('text-brand-text');
-                mobileMenuButton.classList.remove('text-white');
-                document.querySelectorAll('#mobileMenu .nav-link').forEach(link => link.classList.add('text-brand-text'));
-                document.querySelectorAll('#mobileMenu .nav-link').forEach(link => link.classList.remove('text-white'));
+            const isScrolled = window.scrollY > 50;
+            mainNavbar.classList.toggle('scrolled-nav', isScrolled);
+            mainNavbar.classList.toggle('bg-transparent', !isScrolled);
+
+
+            // Desktop links
+            navLinks.forEach(link => {
+                link.classList.toggle('text-brand-text', isScrolled); // Uses new brand-text #513F32
+                link.classList.toggle('text-gray-100', !isScrolled);
+            });
+
+            // Site name
+            siteNameText.classList.toggle('text-brand-primary', isScrolled); // Uses new brand-primary #997D6C
+            siteNameText.classList.toggle('text-white', !isScrolled);
+
+            // Mobile menu button icon
+            mobileMenuButton.classList.toggle('text-brand-text', isScrolled); // Icon color to brand-text
+            mobileMenuButton.classList.toggle('text-white', !isScrolled);
+            
+            // Mobile menu background and links
+            mobileMenu.classList.toggle('bg-brand-bg-white', isScrolled); // Scrolled BG is white
+             if (!isScrolled) { // Initial state for mobile menu background
+                mobileMenu.style.backgroundColor = 'rgba(153, 125, 108, 0.95)'; // brand-primary with opacity
             } else {
-                mainNavbar.classList.remove('scrolled-nav');
-                navLinks.forEach(link => link.classList.remove('text-brand-text'));
-                navLinks.forEach(link => link.classList.add('text-gray-100'));
-                siteNameText.classList.remove('text-brand-primary');
-                siteNameText.classList.add('text-white');
-                mobileMenu.classList.add('bg-brand-primary', 'bg-opacity-95');
-                mobileMenu.classList.remove('bg-brand-bg-white');
-                mobileMenuButton.classList.remove('text-brand-text');
-                mobileMenuButton.classList.add('text-white');
-                document.querySelectorAll('#mobileMenu .nav-link').forEach(link => link.classList.remove('text-brand-text'));
-                document.querySelectorAll('#mobileMenu .nav-link').forEach(link => link.classList.add('text-white'));
+                mobileMenu.style.backgroundColor = ''; // Reverts to class-based BG
             }
+
+            mobileMenuLinks.forEach(link => {
+                link.classList.toggle('text-brand-text', isScrolled);
+                link.classList.toggle('text-white', !isScrolled);
+            });
         });
+
 
         // Mobile menu toggle
         const hamburgerIcon = document.getElementById('hamburgerIcon');
         const closeIcon = document.getElementById('closeIcon');
 
         mobileMenuButton.addEventListener('click', () => {
+            const isExpanded = mobileMenuButton.getAttribute('aria-expanded') === 'true' || false;
             mobileMenu.classList.toggle('hidden');
             hamburgerIcon.classList.toggle('hidden');
             closeIcon.classList.toggle('hidden');
-            mobileMenuButton.setAttribute('aria-expanded', mobileMenu.classList.contains('hidden') ? 'false' : 'true');
+            mobileMenuButton.setAttribute('aria-expanded', !isExpanded);
         });
 
         // Close mobile menu when a link is clicked
@@ -687,26 +683,31 @@
         const confirmationModal = document.getElementById('confirmationModal');
         const closeModalBtn = document.getElementById('closeModalBtn');
 
-        contactForm.addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevents default form submission
+        if (contactForm) {
+            contactForm.addEventListener('submit', function(event) {
+                event.preventDefault(); // Prevents default form submission
 
-            // Shows the modal
-            confirmationModal.classList.remove('hidden');
-            // Small delay for opacity transition to work
-            setTimeout(() => {
-                confirmationModal.classList.add('show');
-            }, 10);
+                // Shows the modal
+                confirmationModal.classList.remove('hidden');
+                // Small delay for opacity transition to work
+                setTimeout(() => {
+                    confirmationModal.classList.add('show');
+                }, 10);
 
-            contactForm.reset(); // Clears the form
-        });
+                contactForm.reset(); // Clears the form
+            });
+        }
 
-        closeModalBtn.addEventListener('click', function() {
-            confirmationModal.classList.remove('show');
-            // Small delay for opacity transition to work before fully hiding
-            setTimeout(() => {
-                confirmationModal.classList.add('hidden');
-            }, 300);
-        });
+       if (closeModalBtn) {
+            closeModalBtn.addEventListener('click', function() {
+                confirmationModal.classList.remove('show');
+                // Small delay for opacity transition to work before fully hiding
+                setTimeout(() => {
+                    confirmationModal.classList.add('hidden');
+                }, 300);
+            });
+        }
+
 
         // FAQ accordion logic
         document.querySelectorAll('#faq .border-b button').forEach(button => {
@@ -736,10 +737,10 @@
         const totalPriceDisplay = document.getElementById('totalPriceDisplay');
 
         function renderCalculableServices() {
+            if (!calculableServicesContainer) return;
             calculableServicesContainer.innerHTML = ''; // Clear previous content
             calculableServicesData.forEach(service => {
                 const serviceDiv = document.createElement('div');
-                // Class adjustments for better responsiveness and alignment on mobile
                 serviceDiv.className = 'p-4 border border-gray-200 rounded-lg transition-colors hover:bg-brand-bg-light/50 flex flex-col md:flex-row md:justify-between md:items-center';
                 serviceDiv.innerHTML = `
                     <div class="mb-3 md:mb-0 md:flex-1 md:pr-4 text-center md:text-left">
@@ -766,13 +767,15 @@
         function addCalculatorEventListeners() {
             document.querySelectorAll('.service-quantity-input').forEach(input => {
                 input.addEventListener('change', updateCalculatorTotalPrice);
+                input.addEventListener('input', updateCalculatorTotalPrice); // For direct typing
             });
 
             document.querySelectorAll('[data-action]').forEach(button => {
                 button.addEventListener('click', (event) => {
                     const serviceId = event.target.dataset.serviceId;
                     const input = document.querySelector(`.service-quantity-input[data-service-id="${serviceId}"]`);
-                    let currentValue = parseInt(input.value);
+                    if (!input) return;
+                    let currentValue = parseInt(input.value) || 0;
 
                     if (event.target.dataset.action === 'increment') {
                         input.value = currentValue + 1;
@@ -785,22 +788,29 @@
         }
 
         function updateCalculatorTotalPrice() {
+            if (!totalPriceDisplay) return;
             let total = 0;
             document.querySelectorAll('.service-quantity-input').forEach(input => {
-                const quantity = parseInt(input.value);
+                const quantity = parseInt(input.value) || 0;
                 const price = parseFloat(input.dataset.price);
-                total += quantity * price;
+                if (!isNaN(quantity) && !isNaN(price)) {
+                    total += quantity * price;
+                }
             });
             totalPriceDisplay.textContent = `R$ ${total.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
         }
 
         // Set current year in footer
-        document.getElementById('currentYear').textContent = new Date().getFullYear();
+        const currentYearEl = document.getElementById('currentYear');
+        if (currentYearEl) {
+            currentYearEl.textContent = new Date().getFullYear();
+        }
+        
 
         // Initial render of calculable services when the DOM is ready
         document.addEventListener('DOMContentLoaded', () => {
             renderCalculableServices();
-            // Simulates a scroll event to apply the initial navbar state
+            // Simulates a scroll event to apply the initial navbar state correctly
             window.dispatchEvent(new Event('scroll'));
         });
     </script>
