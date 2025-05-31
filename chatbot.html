@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot Assistente Kah Siqueira</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos para o chatbot.html para combinar com o site da Kah Siqueira */
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #ffffff; /* Fundo branco para o chat */
+            color: #513F32; /* Cor de texto principal (brand-text) */
+            margin: 0;
+            padding: 15px; /* Padding interno para o conteúdo do chat */
+            display: flex;
+            flex-direction: column;
+            height: 100vh; /* Faz o body ocupar toda a altura do iframe */
+            box-sizing: border-box; /* Garante que padding não aumente o tamanho total */
+            overflow: hidden; /* Evita barras de rolagem no body do iframe */
+        }
+
+        #chat-messages {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding-right: 5px; /* Espaço para a barra de rolagem não sobrepor o conteúdo */
+            margin-bottom: 15px; /* Espaço entre as mensagens e a área de input */
+        }
+
+        /* Custom scrollbar para o chat-messages */
+        #chat-messages::-webkit-scrollbar {
+            width: 6px;
+        }
+        #chat-messages::-webkit-scrollbar-track {
+            background: #E6E0D9; /* brand-bg-light */
+            border-radius: 3px;
+        }
+        #chat-messages::-webkit-scrollbar-thumb {
+            background: #997D6C; /* brand-primary */
+            border-radius: 3px;
+        }
+        #chat-messages::-webkit-scrollbar-thumb:hover {
+            background: #513F32; /* brand-accent */
+        }
+
+        .message {
+            margin-bottom: 12px;
+            padding: 10px 14px;
+            border-radius: 12px; 
+            line-height: 1.5;
+            max-width: 80%; /* Reduzido um pouco para melhor visualização do alinhamento */
+            word-wrap: break-word; 
+        }
+
+        /* MENSAGENS DO USUÁRIO (VOCÊ) - ALINHADAS À DIREITA */
+        .user-message {
+            background-color: #E6E0D9; 
+            color: #513F32; 
+            text-align: left; /* Texto dentro do balão continua alinhado à esquerda */
+            margin-left: auto; /* EMPURRA O BALÃO PARA A DIREITA */
+            margin-right: 0; 
+            border-bottom-right-radius: 4px; /* Canto inferior direito menos arredondado */
+            border-bottom-left-radius: 12px;
+        }
+
+        /* MENSAGENS DA IA (K.A.S.I.) - ALINHADAS À ESQUERDA */
+        .ai-message {
+            background-color: #997D6C; 
+            color: #ffffff; 
+            text-align: left;
+            margin-right: auto; /* EMPURRA O BALÃO PARA A ESQUERDA */
+            margin-left: 0; 
+            border-bottom-left-radius: 4px; /* Canto inferior esquerdo menos arredondado */
+            border-bottom-right-radius: 12px;
+        }
+        
+        .message strong { 
+            display: block;
+            margin-bottom: 5px;
+            font-size: 0.8em;
+            font-weight: 700; 
+            opacity: 0.8;
+        }
+
+        #input-area {
+            display: flex;
+            padding-top: 10px;
+            background-color: #ffffff; 
+            flex-shrink: 0; 
+            border-top: 1px solid #E6E0D9; 
+        }
+
+        #user-input {
+            flex-grow: 1;
+            padding: 12px 14px;
+            border: 1px solid #D1C8BF; 
+            border-radius: 8px;
+            margin-right: 10px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.95em;
+            color: #513F32; 
+        }
+        #user-input::placeholder {
+            color: #9E8F7D; 
+            opacity: 0.8;
+        }
+
+        #send-button {
+            padding: 10px 20px;
+            background-color: #513F32; /* brand-accent */
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 500; 
+            font-size: 0.95em;
+            transition: background-color 0.2s ease;
+        }
+        #send-button:hover {
+            background-color: #413228; 
+        }
+        #send-button:disabled {
+            background-color: #9E8F7D; 
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+        .loading-indicator {
+            text-align: center;
+            padding: 10px 0;
+            font-size: 0.85em;
+            color: #997D6C; /* brand-primary */
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div id="chat-messages">
+        </div>
+    <div id="input-area">
+        <input type="text" id="user-input" placeholder="Digite sua mensagem...">
+        <button id="send-button">Enviar</button>
+    </div>
+
+    <script type="module">
+        import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } from 'https://esm.run/@google/generative-ai';
+
+        const API_KEY = "AIzaSyAdSZc38u2SnIqWSXlRLlr43yxvdDCSWJw"; // Sua chave API
+
+        const NOME_DA_ASSISTENTE = "K.A.S.I.";
+        const INSTRUCAO_DA_PERSONAGEM = `
+            Você é K.A.S.I. (Kah's Assistant for Strategic Interactions), a assistente virtual de Kah Siqueira, Social Media Estrategista e especialista em Design Estratégico.
+            Seu tom é profissional, amigável, prestativo e alinhado com a marca de Kah Siqueira: estratégica, criativa e apaixonada.
+            Seu objetivo principal é ajudar os visitantes do site a:
+            1. Entender os serviços e pacotes oferecidos por Kah Siqueira.
+            2. Tirar dúvidas comuns sobre marketing digital, mídias sociais e os processos de trabalho de Kah.
+            3. Navegar pelo site, direcionando para seções relevantes (Sobre Mim, Serviços, Pacotes, Calculadora, FAQ, Contato).
+            4. Incentivar o contato para uma consulta ou para solicitar um orçamento personalizado.
+
+            Serviços Principais da Kah Siqueira:
+            - Estratégia de Mídias Sociais Personalizada
+            - Gerenciamento de Contas Sociais
+            - Criação de Conteúdo Otimizado
+            - Design Gráfico para Mídias Sociais
+            - Análise de Métricas e Relatórios
+            - Consultoria Estratégica em Marketing Digital
+
+            Pacotes Oferecidos:
+            - Pacote Presença Digital
+            - Pacote Crescimento Estratégico (o mais popular)
+            - Pacote Impacto Total
+            - Orçamentos personalizados também são possíveis através da Calculadora ou contato direto.
+
+            Regras Importantes:
+            - Seja sempre cordial e use uma linguagem clara e acessível.
+            - Não invente informações. Se você não souber a resposta para uma pergunta específica, admita educadamente (ex: "Não tenho essa informação específica no momento...") e direcione o usuário para a seção de Contato do site, para o email Katricia.siqueira@gmail.com, ou sugira que explorem os serviços de Kah.
+            - Não faça promessas de resultados garantidos, mas destaque os benefícios e o potencial de uma boa estratégia de marketing digital.
+            - Ao final de interações úteis, sugira uma ação relevante, como "Gostaria de saber mais sobre algum serviço específico?" ou "Posso te ajudar a encontrar a página de contato?".
+            - Não mencione que você é uma IA ou modelo de linguagem, apenas se apresente como K.A.S.I. (ou o nome escolhido), a assistente virtual de Kah Siqueira.
+            - Mantenha as respostas relativamente concisas e focadas, evitando parágrafos muito longos.
+            - Use emojis de forma sutil e profissional para adicionar um toque amigável, se apropriado (ex: 😊, ✨, 🚀).
+        `;
+
+        const chatMessagesDiv = document.getElementById('chat-messages');
+        const userInput = document.getElementById('user-input');
+        const sendButton = document.getElementById('send-button');
+
+        const safetySettings = [
+            { category: HarmCategory.HARM_CATEGORY_HARASSMENT, threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE },
+            { category: HarmCategory.HARM_CATEGORY_HATE_SPEECH, threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE },
+            { category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT, threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE },
+            { category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT, threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE },
+        ];
+
+        let chat;
+        const saudacaoInicialKASI = `Olá! 😊 Sou K.A.S.I., assistente virtual da Kah Siqueira. Como posso te ajudar a explorar o universo do design estratégico e das mídias sociais hoje?`;
+
+        try {
+            const genAI = new GoogleGenerativeAI(API_KEY);
+            const model = genAI.getGenerativeModel({
+                model: "gemini-1.5-flash-latest",
+                systemInstruction: INSTRUCAO_DA_PERSONAGEM,
+                safetySettings
+            });
+
+            chat = model.startChat({ history: [] });
+            addMessageToChat(NOME_DA_ASSISTENTE, saudacaoInicialKASI, false);
+
+        } catch (error) {
+            console.error("Erro ao inicializar a IA:", error);
+            let initialErrorMessage = "Desculpe, não consegui conectar com a inteligência artificial. Verifique a chave API e a conexão.";
+            if (error.message && error.message.includes("API key not valid")){
+                 initialErrorMessage = "A chave API fornecida não é válida ou está com problemas. Por favor, verifique a chave no Google AI Studio.";
+            } else if (error.message && error.message.includes("quota")){
+                 initialErrorMessage = "Parece que a cota de uso da API foi atingida. Por favor, verifique no Google AI Studio.";
+            }
+            addMessageToChat("Sistema", initialErrorMessage, false);
+            if(sendButton) sendButton.disabled = true;
+            if(userInput) userInput.disabled = true;
+        }
+
+        function addMessageToChat(sender, message, isUser) {
+            if (!chatMessagesDiv) return;
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message');
+            messageDiv.classList.add(isUser ? 'user-message' : 'ai-message');
+
+            const senderStrong = document.createElement('strong');
+            senderStrong.textContent = sender;
+            messageDiv.appendChild(senderStrong);
+
+            let formattedMessage = message.replace(/\n/g, '<br>');
+            formattedMessage = formattedMessage.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            
+            const messageText = document.createElement('p');
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = formattedMessage;
+            if (tempDiv.firstChild && tempDiv.firstChild.nodeName === 'P' && tempDiv.childNodes.length === 1) {
+                messageText.innerHTML = tempDiv.firstChild.innerHTML;
+            } else {
+                messageText.innerHTML = formattedMessage;
+            }
+            messageDiv.appendChild(messageText);
+
+            chatMessagesDiv.appendChild(messageDiv);
+            chatMessagesDiv.scrollTop = chatMessagesDiv.scrollHeight;
+        }
+
+        function showLoadingIndicator() {
+            if (!chatMessagesDiv) return;
+            const existingLoadingDiv = document.getElementById('loading');
+            if (existingLoadingDiv) existingLoadingDiv.remove();
+
+            const loadingDiv = document.createElement('div');
+            loadingDiv.classList.add('loading-indicator');
+            loadingDiv.id = 'loading'; 
+            loadingDiv.textContent = `${NOME_DA_ASSISTENTE} está digitando...`;
+            chatMessagesDiv.appendChild(loadingDiv);
+            chatMessagesDiv.scrollTop = chatMessagesDiv.scrollHeight;
+        }
+
+        function hideLoadingIndicator() {
+            const loadingDiv = document.getElementById('loading');
+            if (loadingDiv) loadingDiv.remove();
+        }
+
+        async function sendMessageToAI() {
+            if (!userInput || !sendButton || !chat) return;
+            const messageText = userInput.value.trim();
+            if (messageText === "") return;
+
+            addMessageToChat("Você", messageText, true);
+            userInput.value = "";
+            sendButton.disabled = true;
+            showLoadingIndicator();
+
+            try {
+                const result = await chat.sendMessage(messageText);
+                const response = result.response;
+                const aiText = response.text();
+                
+                hideLoadingIndicator();
+                addMessageToChat(NOME_DA_ASSISTENTE, aiText, false);
+            } catch (error) {
+                hideLoadingIndicator();
+                console.error("Erro ao enviar mensagem para IA:", error);
+                let errorMessage = "Oops! Tive um pequeno contratempo para processar sua mensagem. Poderia tentar novamente?";
+                if (error.message && error.message.includes("blocked")) {
+                    errorMessage = "Sua mensagem pode ter sido interpretada como sensível. Por favor, reformule sua pergunta.";
+                } else if (error.message && error.message.includes("API key not valid")) { 
+                    errorMessage = "A chave API fornecida não é válida ou está com problemas. Por favor, verifique a chave no Google AI Studio.";
+                } else if (error.message && error.message.includes("quota")){
+                    errorMessage = "Parece que a cota de uso da API foi atingida. Por favor, verifique no Google AI Studio.";
+                }
+                addMessageToChat(NOME_DA_ASSISTENTE, errorMessage, false);
+            } finally {
+                sendButton.disabled = false;
+                if (userInput) userInput.focus();
+            }
+        }
+
+        if (sendButton) sendButton.addEventListener('click', sendMessageToAI);
+        if (userInput) {
+            userInput.addEventListener('keypress', function(event) {
+                if (event.key === 'Enter') sendMessageToAI();
+            });
+        }
+    </script>
+</body>
+</html>

@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kah Siqueira - Design Estratégico</title>
-    <link rel="icon" href="k1.png" type="image/png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="icon" href="k1.png" type="image/png"> <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -18,177 +17,111 @@
                         'brand-secondary': '#9E8F7D', // Bege Acinzentado Suave
                         'brand-accent': '#513F32', // Marrom Escuro Intenso (para CTAs e destaques fortes)
                         'brand-text': '#513F32', // Marrom Escuro Intenso (para texto principal)
-                        'brand-light-text': '#513F32', // Marrom Escuro Intenso (para texto secundário, garantindo contraste)
+                        'brand-light-text': '#513F32',
                         'brand-bg-light': '#E6E0D9', // Branco Acinzentado Sutil (para fundos de seção)
                         'brand-bg-white': '#ffffff', // Branco puro
-                        // NOTA DE ACESSIBILIDADE:
-                        // A cor 'brand-primary' (#997D6C) quando usada como TEXTO sobre 'brand-bg-light' (#E6E0D9)
-                        // resulta em baixo contraste (2.03:1), o que não é ideal para leitura.
-                        // Para títulos (como H2) em seções com fundo 'brand-bg-light' (ex: Sobre, Pacotes, Contato),
-                        // considere usar a classe 'text-brand-text' (que usa #513F32) para garantir melhor acessibilidade.
                     },
                     fontFamily: {
                         'heading': ['Playfair Display', 'serif'],
                         'body': ['Montserrat', 'sans-serif'],
                     },
-                    spacing: { // Adicionando espaçamento mais generoso
-                        '12': '3rem', // 48px
-                        '16': '4rem', // 64px
-                        '20': '5rem', // 80px
-                        '24': '6rem', // 96px
-                        '32': '8rem', // 128px
-                    }
+                    spacing: { '12': '3rem', '16': '4rem', '20': '5rem', '24': '6rem', '32': '8rem' }
                 }
             }
         }
     </script>
     <style>
-        body {
-            font-family: 'Montserrat', sans-serif;
-            color: #513F32; /* Usando a nova cor de texto principal (#513F32) */
-            line-height: 1.6; /* Melhorar legibilidade */
-        }
-        h1, h2, h3, h4, h5, h6 {
-            font-family: 'Playfair Display', serif;
-            /* A cor dos títulos virá das classes Tailwind (ex: text-brand-primary ou text-brand-text) */
-        }
-        /* Ajuste de padding para seções, mais flexível em mobile e maior em desktop */
-        .section-padding {
-            padding-top: 4rem; /* 64px em mobile */
-            padding-bottom: 4rem; /* 64px em mobile */
-        }
-        @media (min-width: 768px) {
-            .section-padding {
-                padding-top: 8rem; /* 128px em desktop */
-                padding-bottom: 8rem; /* 128px em desktop */
-            }
-        }
-        /* Estilo para o modal de mensagem */
+        body { font-family: 'Montserrat', sans-serif; color: #513F32; line-height: 1.6; }
+        h1, h2, h3, h4, h5, h6 { font-family: 'Playfair Display', serif; }
+        .section-padding { padding-top: 4rem; padding-bottom: 4rem; }
+        @media (min-width: 768px) { .section-padding { padding-top: 8rem; padding-bottom: 8rem; } }
+        
         .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.6);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.6); display: flex;
+            justify-content: center; align-items: center; z-index: 1000;
+            opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease;
         }
-        .modal-overlay.show {
-            opacity: 1;
-            visibility: visible;
-        }
-        .modal-content {
-            background-color: #ffffff;
-            padding: 2.5rem; /* Mais padding para um visual premium */
-            border-radius: 1rem; /* Cantos mais arredondados */
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-            text-align: center;
-            max-width: 90%;
-            width: 400px;
-            transform: translateY(-20px);
+        .modal-overlay.show { opacity: 1; visibility: visible; }
+        
+        .modal-content { /* Estilo base para o modal de confirmação do formulário */
+            background-color: #ffffff; padding: 2.5rem; border-radius: 1rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2); text-align: center;
+            max-width: 90%; width: 400px; transform: translateY(-20px);
             transition: transform 0.3s ease;
         }
-        .modal-overlay.show .modal-content {
-            transform: translateY(0);
+        .modal-overlay.show .modal-content { transform: translateY(0); }
+        
+        .modal-content button.close-modal-btn { /* Botão de fechar do modal de confirmação */
+            margin-top: 1.5rem; padding: 0.75rem 2rem; background-color: #997D6C; /* brand-primary */
+            color: white; border-radius: 0.5rem; transition: background-color 0.3s ease;
         }
-        .modal-content button {
-            margin-top: 1.5rem;
-            padding: 0.75rem 2rem;
-            background-color: '#997D6C'; /* Cor primária para o botão (brand-primary) */
+        .modal-content button.close-modal-btn:hover { filter: brightness(0.9); }
+
+        /* ESTILOS ESPECÍFICOS PARA O MODAL DO CHATBOT */
+        #chatbotModal .modal-content { /* Container do modal do chatbot */
+            padding: 0; 
+            overflow: hidden; 
+            width: 90%;
+            max-width: 400px; /* Largura do modal do chatbot */
+            height: 75vh; /* Altura do modal do chatbot */
+            max-height: 600px; /* Altura máxima */
+            display: flex;
+            flex-direction: column; 
+            text-align: left; 
+            border-radius: 0.75rem; 
+        }
+        #chatbotModalHeader { /* Cabeçalho do modal do chatbot */
+            display: flex; justify-content: space-between; align-items: center;
+            background-color: #513F32; /* brand-accent (Marrom Escuro Intenso) */
             color: white;
-            border-radius: 0.5rem;
-            transition: background-color 0.3s ease;
+            padding: 0.75rem 1rem; 
+            border-top-left-radius: 0.75rem; 
+            border-top-right-radius: 0.75rem;
+            flex-shrink: 0; 
         }
-        .modal-content button:hover {
-            /* Idealmente, defina um tom mais escuro de #997D6C ou use brand-accent #513F32 */
-            filter: brightness(0.9);
+        #chatbotModalHeader h3 { margin: 0; font-size: 1.0em; font-family: 'Montserrat', sans-serif; font-weight: 500; }
+        #closeChatbotModalBtn { /* Botão 'x' para fechar o modal do chatbot */
+            background: none; border: none; color: white;
+            font-size: 1.7rem; line-height: 1; padding: 0.25rem; cursor: pointer;
+            opacity: 0.8;
+        }
+        #closeChatbotModalBtn:hover { opacity: 1; }
+        
+        #chatbotFrame { /* Iframe que carregará o chatbot.html */
+            width: 100%;
+            border: none;
+            flex-grow: 1; 
         }
 
-        /* Custom scrollbar for a more refined look */
+        /* Outros estilos (scrollbar, navbar, etc. - mantidos do seu original) */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #f1f1f1; }
-        ::-webkit-scrollbar-thumb { background: #997D6C; border-radius: 4px; } /* brand-primary */
-        ::-webkit-scrollbar-thumb:hover { background: #513F32; } /* brand-accent or darker primary */
+        ::-webkit-scrollbar-thumb { background: #997D6C; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #513F32; }
         html { scroll-behavior: smooth; }
-
-        /* Style for number input to hide spinners */
-        input[type="number"]::-webkit-outer-spin-button,
-        input[type="number"]::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-        input[type="number"] {
-            -moz-appearance: textfield;
-        }
-
-        /* Custom style for hero section to fill screen minus header */
-        .min-h-screen-minus-header {
-            min-height: calc(100vh - 96px); /* Default height for desktop */
-        }
-        @media (max-width: 767px) {
-            .min-h-screen-minus-header {
-                min-height: calc(100vh - 80px); /* Height for mobile, considering smaller header */
-            }
-        }
-
-        /* Navbar scrolled state */
-        .scrolled-nav {
-            background-color: #ffffff; /* brand-bg-white */
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            padding-top: 1rem;
-            padding-bottom: 1rem;
-        }
-        .scrolled-nav .nav-link {
-            color: #513F32; /* brand-text */
-        }
-        .scrolled-nav .site-name-text {
-            color: #997D6C; /* brand-primary */
-        }
-        .scrolled-nav #mobileMenuButton {
-            color: #513F32 !important; /* brand-text */
-        }
-        .scrolled-nav #mobileMenuButton svg {
-            stroke: currentColor;
-        }
-        .scrolled-nav #mobileMenu {
-            background-color: #ffffff; /* brand-bg-white */
-            border-bottom-left-radius: 1rem;
-            border-bottom-right-radius: 1rem;
-        }
-        .scrolled-nav #mobileMenu .nav-link {
-            color: #513F32; /* brand-text */
-        }
-        #mainNavbar.bg-transparent #mobileMenu { /* Mobile menu initial background */
-             background-color: rgba(153, 125, 108, 0.95); /* Cor brand-primary (#997D6C) com opacidade */
-        }
-
-
-        /* Custom style for the "Mais Popular" badge */
-        .popular-badge {
-            /* Gradient from brand-accent (#513F32) to brand-secondary (#9E8F7D) */
-            background: linear-gradient(to right, #513F32, #9E8F7D);
-            border-radius: 0.5rem;
-            padding: 0.25rem 0.75rem;
-            font-size: 0.75rem;
-            font-weight: bold;
-            color: white; /* Text color for the badge - white is good on #513F32, but check contrast on #9E8F7D */
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
+        input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+        input[type="number"] { -moz-appearance: textfield; }
+        .min-h-screen-minus-header { min-height: calc(100vh - 96px); }
+        @media (max-width: 767px) { .min-h-screen-minus-header { min-height: calc(100vh - 80px); } }
+        .scrolled-nav { background-color: #ffffff; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); padding-top: 1rem; padding-bottom: 1rem; }
+        .scrolled-nav .nav-link { color: #513F32; }
+        .scrolled-nav .site-name-text { color: #997D6C; }
+        .scrolled-nav #mobileMenuButton { color: #513F32 !important; }
+        .scrolled-nav #mobileMenuButton svg { stroke: currentColor; }
+        .scrolled-nav #mobileMenu { background-color: #ffffff; border-bottom-left-radius: 1rem; border-bottom-right-radius: 1rem; }
+        .scrolled-nav #mobileMenu .nav-link { color: #513F32; }
+        #mainNavbar.bg-transparent #mobileMenu { background-color: rgba(153, 125, 108, 0.95); }
+        .popular-badge { background: linear-gradient(to right, #513F32, #9E8F7D); border-radius: 0.5rem; padding: 0.25rem 0.75rem; font-size: 0.75rem; font-weight: bold; color: white; text-transform: uppercase; letter-spacing: 0.05em; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); }
     </style>
 </head>
-<body class="bg-brand-bg-white font-body"> <div id="confirmationModal" class="modal-overlay hidden">
+<body class="bg-brand-bg-white font-body">
+
+    <div id="confirmationModal" class="modal-overlay hidden">
         <div class="modal-content">
             <h3 class="text-xl font-heading text-brand-primary mb-4">Obrigada pelo seu contato!</h3>
             <p class="text-brand-text">Em breve retornarei. (Esta é uma demonstração, o formulário não envia dados reais.)</p>
-            <button id="closeModalBtn" class="focus:outline-none focus:ring-2 focus:ring-brand-primary">Fechar</button>
+            <button id="closeModalBtn" class="close-modal-btn focus:outline-none focus:ring-2 focus:ring-brand-primary">Fechar</button>
         </div>
     </div>
 
@@ -205,12 +138,8 @@
                 <a href="#contact" class="nav-link text-gray-100 hover:text-brand-secondary transition-colors duration-300">Contato</a>
             </nav>
             <button id="mobileMenuButton" class="md:hidden focus:outline-none text-white transition-colors duration-300" aria-label="Abrir menu móvel">
-                <svg id="hamburgerIcon" class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
-                </svg>
-                <svg id="closeIcon" class="w-8 h-8 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                </svg>
+                <svg id="hamburgerIcon" class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                <svg id="closeIcon" class="w-8 h-8 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
         </div>
         <div id="mobileMenu" class="md:hidden absolute top-full left-0 w-full shadow-lg rounded-b-lg hidden">
@@ -232,9 +161,7 @@
             <h1 class="text-5xl sm:text-6xl md:text-7xl font-heading text-white mb-4">Kah Siqueira</h1>
             <p class="text-xl sm:text-2xl md:text-3xl font-body text-brand-secondary mb-8">Social Media Estrategista | Design Estratégico</p>
             <p class="text-base sm:text-lg text-gray-200 mb-10 max-w-xl mx-auto">Transformando sua presença digital com estratégia, criatividade e paixão.</p>
-            <a href="#services" class="font-semibold rounded-lg transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 px-6 py-3 sm:px-8 sm:py-4 text-base sm:text-lg bg-brand-accent text-white hover:bg-opacity-90 focus:ring-brand-accent">
-                Descubra Meus Serviços
-            </a>
+            <a href="#services" class="font-semibold rounded-lg transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 px-6 py-3 sm:px-8 sm:py-4 text-base sm:text-lg bg-brand-accent text-white hover:bg-opacity-90 focus:ring-brand-accent">Descubra Meus Serviços</a>
         </div>
     </section>
 
@@ -242,19 +169,13 @@
         <div class="container mx-auto px-6">
             <h2 class="text-3xl sm:text-4xl font-heading text-brand-text text-center mb-12">Sobre Mim</h2> <div class="max-w-3xl mx-auto md:flex md:items-center md:space-x-12">
                 <div class="md:w-1/3 mb-8 md:mb-0 flex justify-center items-center">
-                    <img src="foto_kah_2.png" alt="Kah Siqueira" class="rounded-full shadow-xl w-64 h-64 md:w-full md:h-auto object-cover border-4 border-brand-secondary">
+                    <img src="foto_kah_2.png" alt="Kah Siqueira" class="rounded-full shadow-xl w-64 h-64 md:w-full md:h-auto object-cover border-4 border-brand-secondary" onerror="this.onerror=null; this.src='https://placehold.co/256x256/E6E0D9/513F32?text=Kah+Siqueira';">
                 </div>
-                <div class="md:w-2/3 text-brand-light-text space-y-4 text-center md:text-left"> <p class="text-base sm:text-lg">
-                        Sou estrategista de social media com mais de 15 anos de experiência no universo do marketing. Ao longo da minha trajetória, mergulhei em diferentes áreas da comunicação digital, sempre com um olhar estratégico e apaixonado pelo que faço.
-                    </p>
-                    <p class="text-base sm:text-lg">
-                        Minha missão é transformar ideias em resultados concretos, criando conexões autênticas entre marcas e pessoas. O marketing, para mim, vai muito além de métricas - é sobre propósito, criatividade e entrega com qualidade.
-                    </p>
-                    <p class="text-base sm:text-lg">
-                        Levo cada projeto com comprometimento genuíno, buscando sempre superar expectativas e gerar impacto real. Meu trabalho é minha paixão, e é essa energia que me move todos os dias.
-                    </p>
-                    <p class="text-base sm:text-lg font-semibold text-brand-text"> "Meu trabalho é minha paixão, e é essa energia que me move todos os dias."
-                    </p>
+                <div class="md:w-2/3 text-brand-light-text space-y-4 text-center md:text-left">
+                    <p class="text-base sm:text-lg">Sou estrategista de social media com mais de 15 anos de experiência no universo do marketing. Ao longo da minha trajetória, mergulhei em diferentes áreas da comunicação digital, sempre com um olhar estratégico e apaixonado pelo que faço.</p>
+                    <p class="text-base sm:text-lg">Minha missão é transformar ideias em resultados concretos, criando conexões autênticas entre marcas e pessoas. O marketing, para mim, vai muito além de métricas - é sobre propósito, criatividade e entrega com qualidade.</p>
+                    <p class="text-base sm:text-lg">Levo cada projeto com comprometimento genuíno, buscando sempre superar expectativas e gerar impacto real. Meu trabalho é minha paixão, e é essa energia que me move todos os dias.</p>
+                    <p class="text-base sm:text-lg font-semibold text-brand-text"> "Meu trabalho é minha paixão, e é essa energia que me move todos os dias."</p>
                 </div>
             </div>
         </div>
@@ -263,48 +184,35 @@
     <section id="services" class="section-padding bg-brand-bg-white">
         <div class="container mx-auto px-6">
             <h2 class="text-3xl sm:text-4xl font-heading text-brand-primary text-center mb-4">Meus Serviços</h2>
-            <p class="text-base sm:text-lg text-brand-light-text text-center mb-12 max-w-2xl mx-auto">
-                Soluções personalizadas para impulsionar sua marca no universo digital. Desde a estratégia até a execução, cuido de cada detalhe para que você alcance seus objetivos.
-            </p>
+            <p class="text-base sm:text-lg text-brand-light-text text-center mb-12 max-w-2xl mx-auto">Soluções personalizadas para impulsionar sua marca no universo digital. Desde a estratégia até a execução, cuido de cada detalhe para que você alcance seus objetivos.</p>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <div class="bg-brand-bg-white p-6 md:p-8 rounded-xl shadow-lg transition-all duration-300 hover:shadow-2xl border border-gray-200 flex flex-col items-center text-center">
-                    <div class="mb-4 text-brand-accent"> <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-lightbulb"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1.3.5 2.6 1.5 3.5.8.8 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/><path d="M11 17h2"/><path d="M12 22v-5"/></svg>
-                    </div>
+                    <div class="mb-4 text-brand-accent"> <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-lightbulb"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1.3.5 2.6 1.5 3.5.8.8 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/><path d="M11 17h2"/><path d="M12 22v-5"/></svg></div>
                     <h3 class="text-xl font-heading text-brand-primary mb-3">Estratégia de Mídias Sociais Personalizada</h3>
                     <p class="text-brand-light-text text-sm flex-grow">Desenvolvimento de planos estratégicos alinhados aos seus objetivos de negócio, público-alvo e identidade de marca.</p>
                 </div>
                 <div class="bg-brand-bg-white p-6 md:p-8 rounded-xl shadow-lg transition-all duration-300 hover:shadow-2xl border border-gray-200 flex flex-col items-center text-center">
-                    <div class="mb-4 text-brand-accent">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                    </div>
+                    <div class="mb-4 text-brand-accent"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
                     <h3 class="text-xl font-heading text-brand-primary mb-3">Gerenciamento de Contas Sociais</h3>
                     <p class="text-brand-light-text text-sm flex-grow">Gestão completa de perfis (Instagram, Facebook, LinkedIn, etc.), incluindo postagens, interações e monitoramento.</p>
                 </div>
                 <div class="bg-brand-bg-white p-6 md:p-8 rounded-xl shadow-lg transition-all duration-300 hover:shadow-2xl border border-gray-200 flex flex-col items-center text-center">
-                    <div class="mb-4 text-brand-accent">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-feather"><path d="M20.24 12.24L12 20.48c-.78.78-2.05.78-2.83 0L3.52 14.32a2 2 0 0 1 0-2.83L11.76 3.04c.78-.78 2.05-.78 2.83 0l5.92 5.92a2 2 0 0 1 0 2.83z"/><path d="M15 7l-5.92 5.92"/><path d="M18.5 10.5L12 17"/></svg>
-                    </div>
+                    <div class="mb-4 text-brand-accent"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-feather"><path d="M20.24 12.24L12 20.48c-.78.78-2.05.78-2.83 0L3.52 14.32a2 2 0 0 1 0-2.83L11.76 3.04c.78-.78 2.05-.78 2.83 0l5.92 5.92a2 2 0 0 1 0 2.83z"/><path d="M15 7l-5.92 5.92"/><path d="M18.5 10.5L12 17"/></svg></div>
                     <h3 class="text-xl font-heading text-brand-primary mb-3">Criação de Conteúdo Otimizado</h3>
                     <p class="text-brand-light-text text-sm flex-grow">Produção de conteúdo relevante e engajador (posts, stories, vídeos curtos) que ressoa com sua audiência.</p>
                 </div>
                 <div class="bg-brand-bg-white p-6 md:p-8 rounded-xl shadow-lg transition-all duration-300 hover:shadow-2xl border border-gray-200 flex flex-col items-center text-center">
-                    <div class="mb-4 text-brand-accent">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-palette"><circle cx="13.5" cy="6.5" r=".5"/><circle cx="17.5" cy="10.5" r=".5"/><circle cx="8.5" cy="7.5" r=".5"/><circle cx="6.5" cy="12.5" r=".5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.83 0 1.64-.1 2.4-.28 1.12-.3 2.12-.92 2.9-1.7l3.05-3.05c.9-.9 1.4-2.03 1.4-3.23 0-1.2-.5-2.33-1.4-3.23L16.2 3.7c-.78-.78-1.78-1.39-2.9-1.72A10 10 0 0 0 12 2z"/><path d="M2.5 12.5l5.5 5.5"/><path d="M12.5 2.5l5.5 5.5"/><path d="M17.5 12.5l-5.5 5.5"/></svg>
-                    </div>
+                    <div class="mb-4 text-brand-accent"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-palette"><circle cx="13.5" cy="6.5" r=".5"/><circle cx="17.5" cy="10.5" r=".5"/><circle cx="8.5" cy="7.5" r=".5"/><circle cx="6.5" cy="12.5" r=".5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.83 0 1.64-.1 2.4-.28 1.12-.3 2.12-.92 2.9-1.7l3.05-3.05c.9-.9 1.4-2.03 1.4-3.23 0-1.2-.5-2.33-1.4-3.23L16.2 3.7c-.78-.78-1.78-1.39-2.9-1.72A10 10 0 0 0 12 2z"/><path d="M2.5 12.5l5.5 5.5"/><path d="M12.5 2.5l5.5 5.5"/><path d="M17.5 12.5l-5.5 5.5"/></svg></div>
                     <h3 class="text-xl font-heading text-brand-primary mb-3">Design Gráfico para Mídias Sociais</h3>
                     <p class="text-brand-light-text text-sm flex-grow">Criação de visuais atraentes e profissionais para suas publicações, fortalecendo a identidade visual da sua marca.</p>
                 </div>
                 <div class="bg-brand-bg-white p-6 md:p-8 rounded-xl shadow-lg transition-all duration-300 hover:shadow-2xl border border-gray-200 flex flex-col items-center text-center">
-                    <div class="mb-4 text-brand-accent">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bar-chart-2"><line x1="18" x2="18" y1="20" y2="10"/><line x1="12" x2="12" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="14"/></svg>
-                    </div>
+                    <div class="mb-4 text-brand-accent"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bar-chart-2"><line x1="18" x2="18" y1="20" y2="10"/><line x1="12" x2="12" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="14"/></svg></div>
                     <h3 class="text-xl font-heading text-brand-primary mb-3">Análise de Métricas e Relatórios</h3>
                     <p class="text-brand-light-text text-sm flex-grow">Acompanhamento de desempenho, análise de resultados e geração de relatórios com insights para otimização contínua.</p>
                 </div>
                 <div class="bg-brand-bg-white p-6 md:p-8 rounded-xl shadow-lg transition-all duration-300 hover:shadow-2xl border border-gray-200 flex flex-col items-center text-center">
-                    <div class="mb-4 text-brand-accent">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-square"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-                    </div>
+                    <div class="mb-4 text-brand-accent"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-square"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
                     <h3 class="text-xl font-heading text-brand-primary mb-3">Consultoria Estratégica em Marketing Digital</h3>
                     <p class="text-brand-light-text text-sm flex-grow">Sessões de consultoria para orientar suas ações de marketing, solucionar dúvidas e traçar novos caminhos.</p>
                 </div>
@@ -314,134 +222,44 @@
 
     <section id="packages" class="section-padding bg-brand-bg-light">
         <div class="container mx-auto px-6">
-            <h2 class="text-3xl sm:text-4xl font-heading text-brand-text text-center mb-4">Pacotes Prontos</h2> <p class="text-base sm:text-lg text-brand-light-text text-center mb-12 max-w-2xl mx-auto"> Escolha o pacote que melhor se adapta às suas necessidades e comece a transformar sua presença digital hoje mesmo.
-            </p>
+            <h2 class="text-3xl sm:text-4xl font-heading text-brand-text text-center mb-4">Pacotes Prontos</h2> <p class="text-base sm:text-lg text-brand-light-text text-center mb-12 max-w-2xl mx-auto"> Escolha o pacote que melhor se adapta às suas necessidades e comece a transformar sua presença digital hoje mesmo.</p>
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
                 <div class="bg-brand-bg-white p-6 md:p-8 rounded-xl shadow-lg transition-all duration-300 hover:shadow-xl hover:border hover:border-brand-accent/50 flex flex-col">
                     <h3 class="text-2xl font-heading text-brand-primary mb-2 text-center">Pacote Presença Digital</h3>
                     <p class="text-3xl font-bold text-brand-accent mb-1 text-center">R$ 800</p> <p class="text-xs text-brand-light-text mb-6 text-center">por mês</p>
                     <ul class="space-y-3 mb-8 flex-grow">
-                        <li class="flex items-start text-sm text-brand-light-text">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-brand-primary mr-2 shrink-0"> <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
-                            </svg>
-                            <span>Gerenciamento de 1 plataforma social</span>
-                        </li>
-                        <li class="flex items-start text-sm text-brand-light-text">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-brand-primary mr-2 shrink-0">
-                                <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
-                            </svg>
-                            <span>8 posts por mês (design + legenda)</span>
-                        </li>
-                        <li class="flex items-start text-sm text-brand-light-text">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-brand-primary mr-2 shrink-0">
-                                <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
-                            </svg>
-                            <span>Relatório mensal básico</span>
-                        </li>
-                        <li class="flex items-start text-sm text-brand-light-text">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-brand-primary mr-2 shrink-0">
-                                <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
-                            </svg>
-                            <span>Suporte via e-mail</span>
-                        </li>
+                        <li class="flex items-start text-sm text-brand-light-text"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-brand-primary mr-2 shrink-0"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" /></svg><span>Gerenciamento de 1 plataforma social</span></li>
+                        <li class="flex items-start text-sm text-brand-light-text"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-brand-primary mr-2 shrink-0"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" /></svg><span>8 posts por mês (design + legenda)</span></li>
+                        <li class="flex items-start text-sm text-brand-light-text"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-brand-primary mr-2 shrink-0"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" /></svg><span>Relatório mensal básico</span></li>
+                        <li class="flex items-start text-sm text-brand-light-text"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-brand-primary mr-2 shrink-0"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" /></svg><span>Suporte via e-mail</span></li>
                     </ul>
-                    <a href="#contact" class="font-semibold rounded-lg transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 px-6 py-3 text-base w-full mt-auto bg-brand-primary text-white hover:bg-opacity-90 focus:ring-brand-primary flex items-center justify-center">
-                        Quero Este Pacote
-                    </a>
+                    <a href="#contact" class="font-semibold rounded-lg transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 px-6 py-3 text-base w-full mt-auto bg-brand-primary text-white hover:bg-opacity-90 focus:ring-brand-primary flex items-center justify-center">Quero Este Pacote</a>
                 </div>
-
                 <div class="bg-brand-bg-white p-6 md:p-8 rounded-xl shadow-lg transition-all duration-300 hover:shadow-xl hover:border hover:border-brand-accent/50 flex flex-col ring-2 ring-brand-accent lg:scale-105">
                     <div class="popular-badge w-fit mx-auto -mt-6 mb-4">Mais Popular</div> <h3 class="text-2xl font-heading text-brand-primary mb-2 text-center">Pacote Crescimento Estratégico</h3>
-                    <p class="text-3xl font-bold text-brand-accent mb-1 text-center">R$ 1500</p>
-                    <p class="text-xs text-brand-light-text mb-6 text-center">por mês</p>
+                    <p class="text-3xl font-bold text-brand-accent mb-1 text-center">R$ 1500</p><p class="text-xs text-brand-light-text mb-6 text-center">por mês</p>
                     <ul class="space-y-3 mb-8 flex-grow">
-                        <li class="flex items-start text-sm text-brand-light-text">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-brand-primary mr-2 shrink-0">
-                                <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
-                            </svg>
-                            <span>Gerenciamento de 2 plataformas sociais</span>
-                        </li>
-                         <li class="flex items-start text-sm text-brand-light-text">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-brand-primary mr-2 shrink-0">
-                                <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
-                            </svg>
-                            <span>12 posts por mês (design + legenda)</span>
-                        </li>
-                        <li class="flex items-start text-sm text-brand-light-text">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-brand-primary mr-2 shrink-0">
-                                <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
-                            </svg>
-                            <span>4 stories interativos por semana</span>
-                        </li>
-                        <li class="flex items-start text-sm text-brand-light-text">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-brand-primary mr-2 shrink-0">
-                                <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
-                            </svg>
-                            <span>Configuração e monitoramento básico de campanhas</span>
-                        </li>
-                        <li class="flex items-start text-sm text-brand-light-text">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-brand-primary mr-2 shrink-0">
-                                <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
-                            </svg>
-                            <span>Relatório mensal detalhado</span>
-                        </li>
-                        <li class="flex items-start text-sm text-brand-light-text">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-brand-primary mr-2 shrink-0">
-                                <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
-                            </svg>
-                            <span>Suporte prioritário</span>
-                        </li>
+                        <li class="flex items-start text-sm text-brand-light-text"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-brand-primary mr-2 shrink-0"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" /></svg><span>Gerenciamento de 2 plataformas sociais</span></li>
+                        <li class="flex items-start text-sm text-brand-light-text"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-brand-primary mr-2 shrink-0"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" /></svg><span>12 posts por mês (design + legenda)</span></li>
+                        <li class="flex items-start text-sm text-brand-light-text"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-brand-primary mr-2 shrink-0"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" /></svg><span>4 stories interativos por semana</span></li>
+                        <li class="flex items-start text-sm text-brand-light-text"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-brand-primary mr-2 shrink-0"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" /></svg><span>Configuração e monitoramento básico de campanhas</span></li>
+                        <li class="flex items-start text-sm text-brand-light-text"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-brand-primary mr-2 shrink-0"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" /></svg><span>Relatório mensal detalhado</span></li>
+                        <li class="flex items-start text-sm text-brand-light-text"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-brand-primary mr-2 shrink-0"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" /></svg><span>Suporte prioritário</span></li>
                     </ul>
-                     <a href="#contact" class="font-semibold rounded-lg transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 px-6 py-3 text-base w-full mt-auto bg-brand-accent text-white hover:bg-opacity-90 focus:ring-brand-accent flex items-center justify-center">
-                        Quero Este Pacote
-                    </a>
+                    <a href="#contact" class="font-semibold rounded-lg transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 px-6 py-3 text-base w-full mt-auto bg-brand-accent text-white hover:bg-opacity-90 focus:ring-brand-accent flex items-center justify-center">Quero Este Pacote</a>
                 </div>
-
                 <div class="bg-brand-bg-white p-6 md:p-8 rounded-xl shadow-lg transition-all duration-300 hover:shadow-xl hover:border hover:border-brand-accent/50 flex flex-col">
                     <h3 class="text-2xl font-heading text-brand-primary mb-2 text-center">Pacote Impacto Total</h3>
-                    <p class="text-3xl font-bold text-brand-accent mb-1 text-center">R$ 2500</p>
-                    <p class="text-xs text-brand-light-text mb-6 text-center">por mês</p>
+                    <p class="text-3xl font-bold text-brand-accent mb-1 text-center">R$ 2500</p><p class="text-xs text-brand-light-text mb-6 text-center">por mês</p>
                     <ul class="space-y-3 mb-8 flex-grow">
-                        <li class="flex items-start text-sm text-brand-light-text">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-brand-primary mr-2 shrink-0">
-                                <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
-                            </svg>
-                            <span>Gerenciamento de até 3 plataformas sociais</span>
-                        </li>
-                        <li class="flex items-start text-sm text-brand-light-text">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-brand-primary mr-2 shrink-0">
-                                <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
-                            </svg>
-                            <span>20 posts por mês (design + legenda + variação)</span>
-                        </li>
-                        <li class="flex items-start text-sm text-brand-light-text">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-brand-primary mr-2 shrink-0">
-                                <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
-                            </svg>
-                            <span>8 stories interativos por semana</span>
-                        </li>
-                        <li class="flex items-start text-sm text-brand-light-text">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-brand-primary mr-2 shrink-0">
-                                <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
-                            </svg>
-                            <span>Criação de 2 vídeos curtos (Reels/Tik Toks) por mês</span>
-                        </li>
-                        <li class="flex items-start text-sm text-brand-light-text">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-brand-primary mr-2 shrink-0">
-                                <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
-                            </svg>
-                            <span>Consultoria estratégica quinzenal</span>
-                        </li>
-                        <li class="flex items-start text-sm text-brand-light-text">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-brand-primary mr-2 shrink-0">
-                                <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
-                            </svg>
-                            <span>Relatório mensal completo com insights</span>
-                        </li>
+                        <li class="flex items-start text-sm text-brand-light-text"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-brand-primary mr-2 shrink-0"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" /></svg><span>Gerenciamento de até 3 plataformas sociais</span></li>
+                        <li class="flex items-start text-sm text-brand-light-text"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-brand-primary mr-2 shrink-0"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" /></svg><span>20 posts por mês (design + legenda + variação)</span></li>
+                        <li class="flex items-start text-sm text-brand-light-text"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-brand-primary mr-2 shrink-0"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" /></svg><span>8 stories interativos por semana</span></li>
+                        <li class="flex items-start text-sm text-brand-light-text"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-brand-primary mr-2 shrink-0"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" /></svg><span>Criação de 2 vídeos curtos (Reels/Tik Toks) por mês</span></li>
+                        <li class="flex items-start text-sm text-brand-light-text"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-brand-primary mr-2 shrink-0"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" /></svg><span>Consultoria estratégica quinzenal</span></li>
+                        <li class="flex items-start text-sm text-brand-light-text"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-brand-primary mr-2 shrink-0"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" /></svg><span>Relatório mensal completo com insights</span></li>
                     </ul>
-                    <a href="#contact" class="font-semibold rounded-lg transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 px-6 py-3 text-base w-full mt-auto bg-brand-primary text-white hover:bg-opacity-90 focus:ring-brand-primary flex items-center justify-center">
-                        Quero Este Pacote
-                    </a>
+                    <a href="#contact" class="font-semibold rounded-lg transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 px-6 py-3 text-base w-full mt-auto bg-brand-primary text-white hover:bg-opacity-90 focus:ring-brand-primary flex items-center justify-center">Quero Este Pacote</a>
                 </div>
             </div>
             <p class="text-center mt-12 text-brand-light-text text-base sm:text-lg">Não encontrou o pacote ideal? <a href="#calculator" class="text-brand-accent font-semibold hover:underline">Monte um orçamento personalizado</a> ou <a href="https://wa.me/554598309598" target="_blank" rel="noopener noreferrer" class="text-brand-accent font-semibold hover:underline">entre em contato</a>!</p>
@@ -451,17 +269,13 @@
     <section id="calculator" class="section-padding bg-brand-bg-white">
         <div class="container mx-auto px-6">
             <h2 class="text-3xl sm:text-4xl font-heading text-brand-primary text-center mb-4">Calculadora de Orçamento Personalizado</h2>
-            <p class="text-base sm:text-lg text-brand-light-text text-center mb-12 max-w-2xl mx-auto">
-                Selecione a quantidade de cada serviço que você precisa para ter uma estimativa de investimento. Este é o valor aproximado, entre em contato para um orçamento detalhado.
-            </p>
+            <p class="text-base sm:text-lg text-brand-light-text text-center mb-12 max-w-2xl mx-auto">Selecione a quantidade de cada serviço que você precisa para ter uma estimativa de investimento. Este é o valor aproximado, entre em contato para um orçamento detalhado.</p>
             <div class="max-w-4xl mx-auto bg-brand-bg-white p-6 md:p-8 rounded-xl shadow-xl">
-                <div class="space-y-6 mb-8" id="calculableServices">
-                    </div>
+                <div class="space-y-6 mb-8" id="calculableServices"></div>
                 <div class="text-center border-t border-gray-200 pt-8">
                     <h3 class="text-2xl font-heading text-brand-primary mb-2">Total Estimado:</h3>
-                    <p id="totalPriceDisplay" class="text-4xl font-bold text-brand-accent mb-6" aria-live="polite">R$ 0,00</p> <a href="#contact" class="font-semibold rounded-lg transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 px-6 py-3 text-base sm:px-8 sm:py-4 sm:text-lg bg-brand-accent text-white hover:bg-opacity-90 focus:ring-brand-accent">
-                        Solicitar Orçamento
-                    </a>
+                    <p id="totalPriceDisplay" class="text-4xl font-bold text-brand-accent mb-6" aria-live="polite">R$ 0,00</p>
+                    <a href="#contact" class="font-semibold rounded-lg transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 px-6 py-3 text-base sm:px-8 sm:py-4 sm:text-lg bg-brand-accent text-white hover:bg-opacity-90 focus:ring-brand-accent">Solicitar Orçamento</a>
                     <p class="text-xs text-brand-light-text mt-4">Este valor é uma estimativa. O preço final pode variar conforme a complexidade e escopo do projeto.</p>
                 </div>
             </div>
@@ -470,19 +284,19 @@
 
     <section id="contact" class="section-padding bg-brand-bg-light">
         <div class="container mx-auto px-6 max-w-4xl">
-            <h2 class="text-3xl sm:text-4xl font-heading text-brand-text text-center mb-4">Entre em Contato</h2> <p class="text-base sm:text-lg text-brand-light-text text-center mb-12 max-w-2xl mx-auto"> Vamos conversar sobre como posso ajudar a sua marca a brilhar! Preencha o formulário ou utilize um dos canais abaixo.
-            </p>
+            <h2 class="text-3xl sm:text-4xl font-heading text-brand-text text-center mb-4">Entre em Contato</h2>
+            <p class="text-base sm:text-lg text-brand-light-text text-center mb-12 max-w-2xl mx-auto"> Vamos conversar sobre como posso ajudar a sua marca a brilhar! Preencha o formulário ou utilize um dos canais abaixo.</p>
             <div class="md:flex md:space-x-12">
                 <div class="md:w-1/2 mb-10 md:mb-0">
-                    <h3 class="text-2xl font-heading text-brand-text mb-4">Informações de Contato</h3> <p class="text-brand-light-text mb-2">Sinta-se à vontade para me contatar diretamente:</p>
+                    <h3 class="text-2xl font-heading text-brand-text mb-4">Informações de Contato</h3>
+                    <p class="text-brand-light-text mb-2">Sinta-se à vontade para me contatar diretamente:</p>
                     <ul class="space-y-3 text-brand-light-text mb-6">
                         <li><strong>Email:</strong> <a href="mailto:Katricia.siqueira@gmail.com" class="text-brand-accent hover:underline">Katricia.siqueira@gmail.com</a></li>
                         <li><strong>WhatsApp/Telefone:</strong> <a href="https://wa.me/554598309598" target="_blank" rel="noopener noreferrer" class="text-brand-accent hover:underline">+55 45 9830-9598</a></li>
                     </ul>
-                    <h3 class="text-xl font-heading text-brand-text mb-2">Siga-me nas redes:</h3> <div class="flex space-x-4">
-                        <a href="https://instagram.com/eukahsiqueira/" target="_blank" rel="noopener noreferrer" class="text-brand-accent hover:text-brand-primary transition-colors text-sm">Instagram</a>
-                    </div>
-                    <img src="foto3.png" alt="Detalhe de escritório" class="mt-8 rounded-lg shadow-md object-cover w-full h-auto"/>
+                    <h3 class="text-xl font-heading text-brand-text mb-2">Siga-me nas redes:</h3>
+                    <div class="flex space-x-4"><a href="https://instagram.com/eukahsiqueira/" target="_blank" rel="noopener noreferrer" class="text-brand-accent hover:text-brand-primary transition-colors text-sm">Instagram</a></div>
+                    <img src="foto3.png" alt="Detalhe de escritório" class="mt-8 rounded-lg shadow-md object-cover w-full h-auto" onerror="this.onerror=null; this.src='https://placehold.co/600x400/E6E0D9/513F32?text=Ambiente+de+Trabalho';">
                 </div>
                 <form id="contactForm" class="md:w-1/2 bg-white p-8 rounded-xl shadow-xl">
                     <div class="mb-5">
@@ -501,9 +315,7 @@
                         <label for="message" class="block text-brand-text text-sm font-medium mb-2">Sua Mensagem</label>
                         <textarea id="message" name="message" rows="4" class="block p-2.5 w-full text-sm text-brand-text bg-gray-50 rounded-lg border border-gray-300 focus:ring-brand-accent focus:border-brand-accent" placeholder="Deixe sua mensagem aqui..." required></textarea>
                     </div>
-                    <button type="submit" class="font-semibold rounded-lg transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 px-6 py-3 text-base bg-brand-accent text-white hover:bg-opacity-90 focus:ring-brand-accent w-full">
-                        Enviar Mensagem
-                    </button>
+                    <button type="submit" class="font-semibold rounded-lg transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 px-6 py-3 text-base bg-brand-accent text-white hover:bg-opacity-90 focus:ring-brand-accent w-full">Enviar Mensagem</button>
                 </form>
             </div>
         </div>
@@ -512,69 +324,34 @@
     <section id="faq" class="section-padding bg-brand-bg-white">
         <div class="container mx-auto px-6">
             <h2 class="text-3xl sm:text-4xl font-heading text-brand-primary text-center mb-4">Perguntas Frequentes (FAQ)</h2>
-            <p class="text-base sm:text-lg text-brand-light-text text-center mb-12 max-w-2xl mx-auto">
-                Tire suas dúvidas mais comuns sobre meus serviços e como posso ajudar seu negócio a crescer.
-            </p>
+            <p class="text-base sm:text-lg text-brand-light-text text-center mb-12 max-w-2xl mx-auto">Tire suas dúvidas mais comuns sobre meus serviços e como posso ajudar seu negócio a crescer.</p>
             <div class="max-w-2xl mx-auto">
                 <div class="border-b border-gray-200 py-1">
-                    <button type="button" class="flex justify-between items-center w-full py-5 font-medium text-left text-brand-text hover:text-brand-primary transition-colors" aria-expanded="false" aria-controls="faq-content-q1">
-                        <span>O que faz um Social Media Estrategista?</span>
-                        <svg class="w-5 h-5 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                        </svg>
-                    </button>
-                    <div id="faq-content-q1" class="pb-5 px-1 text-brand-light-text text-sm hidden"> <p>Um Social Media Estrategista planeja, cria e gerencia a presença online de uma marca nas redes sociais. Isso inclui desenvolver estratégias de conteúdo, analisar métricas, interagir com a audiência e garantir que as ações estejam alinhadas aos objetivos de marketing e negócios da empresa.</p>
-                    </div>
+                    <button type="button" class="flex justify-between items-center w-full py-5 font-medium text-left text-brand-text hover:text-brand-primary transition-colors" aria-expanded="false" aria-controls="faq-content-q1"><span>O que faz um Social Media Estrategista?</span><svg class="w-5 h-5 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></button>
+                    <div id="faq-content-q1" class="pb-5 px-1 text-brand-light-text text-sm hidden"><p>Um Social Media Estrategista planeja, cria e gerencia a presença online de uma marca nas redes sociais. Isso inclui desenvolver estratégias de conteúdo, analisar métricas, interagir com a audiência e garantir que as ações estejam alinhadas aos objetivos de marketing e negócios da empresa.</p></div>
                 </div>
                 <div class="border-b border-gray-200 py-1">
-                    <button type="button" class="flex justify-between items-center w-full py-5 font-medium text-left text-brand-text hover:text-brand-primary transition-colors" aria-expanded="false" aria-controls="faq-content-q2">
-                        <span>Por que preciso de um profissional para gerenciar minhas mídias sociais?</span>
-                        <svg class="w-5 h-5 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                        </svg>
-                    </button>
-                    <div id="faq-content-q2" class="pb-5 px-1 text-brand-light-text text-sm hidden">
-                        <p>Um profissional traz expertise, economiza seu tempo, cria conteúdo de qualidade e utiliza estratégias eficazes para aumentar o engajamento, visibilidade e, consequentemente, os resultados do seu negócio. Além disso, mantém a consistência e profissionalismo da sua marca online.</p>
-                    </div>
+                    <button type="button" class="flex justify-between items-center w-full py-5 font-medium text-left text-brand-text hover:text-brand-primary transition-colors" aria-expanded="false" aria-controls="faq-content-q2"><span>Por que preciso de um profissional para gerenciar minhas mídias sociais?</span><svg class="w-5 h-5 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></button>
+                    <div id="faq-content-q2" class="pb-5 px-1 text-brand-light-text text-sm hidden"><p>Um profissional traz expertise, economiza seu tempo, cria conteúdo de qualidade e utiliza estratégias eficazes para aumentar o engajamento, visibilidade e, consequentemente, os resultados do seu negócio. Além disso, mantém a consistência e profissionalismo da sua marca online.</p></div>
                 </div>
                 <div class="border-b border-gray-200 py-1">
-                    <button type="button" class="flex justify-between items-center w-full py-5 font-medium text-left text-brand-text hover:text-brand-primary transition-colors" aria-expanded="false" aria-controls="faq-content-q3">
-                        <span>Quanto tempo leva para ver resultados?</span>
-                        <svg class="w-5 h-5 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                        </svg>
-                    </button>
-                    <div id="faq-content-q3" class="pb-5 px-1 text-brand-light-text text-sm hidden">
-                        <p>Os resultados em mídias sociais variam dependendo de diversos fatores, como o nicho de mercado, investimento, consistência e a estratégia adotada. Geralmente, resultados significativos começam a aparecer entre 3 a 6 meses de trabalho contínuo e estratégico.</p>
-                    </div>
+                    <button type="button" class="flex justify-between items-center w-full py-5 font-medium text-left text-brand-text hover:text-brand-primary transition-colors" aria-expanded="false" aria-controls="faq-content-q3"><span>Quanto tempo leva para ver resultados?</span><svg class="w-5 h-5 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></button>
+                    <div id="faq-content-q3" class="pb-5 px-1 text-brand-light-text text-sm hidden"><p>Os resultados em mídias sociais variam dependendo de diversos fatores, como o nicho de mercado, investimento, consistência e a estratégia adotada. Geralmente, resultados significativos começam a aparecer entre 3 a 6 meses de trabalho contínuo e estratégico.</p></div>
                 </div>
                 <div class="border-b border-gray-200 py-1">
-                    <button type="button" class="flex justify-between items-center w-full py-5 font-medium text-left text-brand-text hover:text-brand-primary transition-colors" aria-expanded="false" aria-controls="faq-content-q4">
-                        <span>Vocês oferecem pacotes personalizados além dos listados?</span>
-                        <svg class="w-5 h-5 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                        </svg>
-                    </button>
-                    <div id="faq-content-q4" class="pb-5 px-1 text-brand-light-text text-sm hidden">
-                        <p>Sim! Os pacotes são um ponto de partida. Entendo que cada negócio é único. Podemos conversar sobre suas necessidades específicas e montar um plano totalmente personalizado. A calculadora de orçamento também ajuda a ter uma ideia de valores para serviços avulsos.</p>
-                    </div>
+                    <button type="button" class="flex justify-between items-center w-full py-5 font-medium text-left text-brand-text hover:text-brand-primary transition-colors" aria-expanded="false" aria-controls="faq-content-q4"><span>Vocês oferecem pacotes personalizados além dos listados?</span><svg class="w-5 h-5 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></button>
+                    <div id="faq-content-q4" class="pb-5 px-1 text-brand-light-text text-sm hidden"><p>Sim! Os pacotes são um ponto de partida. Entendo que cada negócio é único. Podemos conversar sobre suas necessidades específicas e montar um plano totalmente personalizado. A calculadora de orçamento também ajuda a ter uma ideia de valores para serviços avulsos.</p></div>
                 </div>
                 <div class="border-b border-gray-200 py-1">
-                    <button type="button" class="flex justify-between items-center w-full py-5 font-medium text-left text-brand-text hover:text-brand-primary transition-colors" aria-expanded="false" aria-controls="faq-content-q5">
-                        <span>Como funciona o processo de contratação?</span>
-                        <svg class="w-5 h-5 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                        </svg>
-                    </button>
-                    <div id="faq-content-q5" class="pb-5 px-1 text-brand-light-text text-sm hidden">
-                        <p>O primeiro passo é entrar em contato para agendarmos uma conversa inicial. Nela, vamos entender seus objetivos e desafios. Em seguida, apresento uma proposta personalizada. Após a aprovação, iniciamos o onboarding e o planejamento estratégico para suas mídias sociais.</p>
-                    </div>
+                    <button type="button" class="flex justify-between items-center w-full py-5 font-medium text-left text-brand-text hover:text-brand-primary transition-colors" aria-expanded="false" aria-controls="faq-content-q5"><span>Como funciona o processo de contratação?</span><svg class="w-5 h-5 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></button>
+                    <div id="faq-content-q5" class="pb-5 px-1 text-brand-light-text text-sm hidden"><p>O primeiro passo é entrar em contato para agendarmos uma conversa inicial. Nela, vamos entender seus objetivos e desafios. Em seguida, apresento uma proposta personalizada. Após a aprovação, iniciamos o onboarding e o planejamento estratégico para suas mídias sociais.</p></div>
                 </div>
             </div>
         </div>
     </section>
 
-    <footer class="bg-brand-primary text-white py-12 text-center"> <div class="container mx-auto px-6">
+    <footer class="bg-brand-primary text-white py-12 text-center">
+        <div class="container mx-auto px-6">
             <h3 class="text-2xl font-heading mb-4">Kah Siqueira - Social Media Estrategista</h3>
             <p class="mb-2">Transformando ideias em resultados digitais.</p>
             <p class="mb-4"><a href="mailto:Katricia.siqueira@gmail.com" class="hover:text-brand-secondary transition-colors">Katricia.siqueira@gmail.com</a></p>
@@ -586,233 +363,234 @@
         </div>
     </footer>
 
-    <a href="https://wa.me/554598309598" target="_blank" rel="noopener noreferrer" aria-label="Entrar em contato pelo WhatsApp"
-        class="fixed bottom-6 right-6 bg-green-500 hover:bg-green-600 text-white p-3 rounded-full shadow-lg z-50 transition-all duration-300 ease-in-out flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2">
-        <img src="whatsapp-logo.png" alt="Logo do WhatsApp" class="w-8 h-8" onerror="this.alt='Ícone do WhatsApp'; this.src='https://placehold.co/32x32/25D366/FFFFFF?text=W';">
-    </a>
+    <button id="openChatbotBtn" aria-label="Abrir chatbot"
+        class="fixed bottom-6 right-6 bg-brand-accent hover:bg-opacity-80 text-white p-3 rounded-full shadow-xl z-[1001] transition-all duration-300 ease-in-out flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-2">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-circle">
+            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+        </svg>
+    </button>
 
+    <div id="chatbotModal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <div id="chatbotModalHeader">
+                <h3>Chat Assistente</h3>
+                <button id="closeChatbotModalBtn" aria-label="Fechar chatbot">&times;</button>
+            </div>
+            <iframe id="chatbotFrame" src="" title="Chatbot Assistente"></iframe>
+        </div>
+    </div>
     <script>
-        // Constants from PDF (kept as is)
+        // Constants (mantidas do seu original)
         const SITE_NAME_DISPLAY_FULL = "Kah Siqueira - Design Estratégico";
         const SITE_NAME_SHORT = "Kah Siqueira";
-        const SITE_ROLE_DISPLAY = "Social Media Estrategista";
-        const CONTACT_EMAIL = "Katricia.siqueira@gmail.com";
-        const CONTACT_PHONE = "+55 45 9830-9598";
-        const WHATSAPP_LINK = "https://wa.me/554598309598";
-        const INSTAGRAM_LINK = "https://instagram.com/eukahsiqueira/";
-        const DEVELOPER_NAME = "Jorge Carvalho";
-        const DEVELOPER_INSTAGRAM_LINK = "https://instagram.com/jorgecarvalho.pro/";
+        // ... (outras constantes que você já tinha)
 
-        // Data for Calculable Services (kept as is)
-        const calculableServicesData = [
-            { id: 'platform_management', name: 'Gerenciamento de Plataforma Social', price: 300, description: 'Gestão mensal por plataforma.' },
-            { id: 'content_creation_post', name: 'Criação de Post Avulso', price: 50, description: 'Design e legenda por post.' },
-            { id: 'content_creation_story', name: 'Criação de Story Avulso', price: 20, description: 'Design por story.' },
-            { id: 'short_video', name: 'Criação de Vídeo Curto (Reel/Tik Tok)', price: 150, description: 'Edição básica por vídeo.' },
-            { id: 'graphic_design_banner', name: 'Design de Capa/Banner para Perfil', price: 100, description: 'Arte por design de capa.' },
-            { id: 'strategic_consulting', name: 'Consultoria Estratégica', price: 250, description: 'Sessão por hora de consultoria.' },
-            { id: 'detailed_report', name: 'Relatório de Desempenho Detalhado Adicional', price: 200, description: 'Análise e relatório customizado por unidade.' }
-        ];
+        document.addEventListener('DOMContentLoaded', () => {
+            // Lógica da Navbar, Formulário de Contato, FAQ, Calculadora (mantida do seu original)
+            const mainNavbar = document.getElementById('mainNavbar');
+            const navLinks = document.querySelectorAll('#mainNavbar nav a.nav-link');
+            const siteNameText = document.querySelector('.site-name-text');
+            const mobileMenuButton = document.getElementById('mobileMenuButton');
+            const mobileMenu = document.getElementById('mobileMenu');
+            const mobileMenuLinks = document.querySelectorAll('#mobileMenu a.nav-link');
 
-        // Navbar scroll effect
-        const mainNavbar = document.getElementById('mainNavbar');
-        const navLinks = document.querySelectorAll('#mainNavbar nav a.nav-link'); // More specific selector for desktop nav links
-        const siteNameText = document.querySelector('.site-name-text');
-        const mobileMenuButton = document.getElementById('mobileMenuButton');
-        const mobileMenu = document.getElementById('mobileMenu');
-        const mobileMenuLinks = document.querySelectorAll('#mobileMenu a.nav-link'); // Specific selector for mobile nav links
+            if (mainNavbar) { // Adiciona verificação para evitar erros se o elemento não existir
+                window.addEventListener('scroll', () => {
+                    const isScrolled = window.scrollY > 50;
+                    mainNavbar.classList.toggle('scrolled-nav', isScrolled);
+                    mainNavbar.classList.toggle('bg-transparent', !isScrolled);
 
-        window.addEventListener('scroll', () => {
-            const isScrolled = window.scrollY > 50;
-            mainNavbar.classList.toggle('scrolled-nav', isScrolled);
-            mainNavbar.classList.toggle('bg-transparent', !isScrolled);
-
-
-            // Desktop links
-            navLinks.forEach(link => {
-                link.classList.toggle('text-brand-text', isScrolled); // Uses new brand-text #513F32
-                link.classList.toggle('text-gray-100', !isScrolled);
-            });
-
-            // Site name
-            siteNameText.classList.toggle('text-brand-primary', isScrolled); // Uses new brand-primary #997D6C
-            siteNameText.classList.toggle('text-white', !isScrolled);
-
-            // Mobile menu button icon
-            mobileMenuButton.classList.toggle('text-brand-text', isScrolled); // Icon color to brand-text
-            mobileMenuButton.classList.toggle('text-white', !isScrolled);
-            
-            // Mobile menu background and links
-            mobileMenu.classList.toggle('bg-brand-bg-white', isScrolled); // Scrolled BG is white
-             if (!isScrolled) { // Initial state for mobile menu background
-                mobileMenu.style.backgroundColor = 'rgba(153, 125, 108, 0.95)'; // brand-primary with opacity
-            } else {
-                mobileMenu.style.backgroundColor = ''; // Reverts to class-based BG
+                    navLinks.forEach(link => {
+                        link.classList.toggle('text-brand-text', isScrolled);
+                        link.classList.toggle('text-gray-100', !isScrolled);
+                    });
+                    if (siteNameText) {
+                        siteNameText.classList.toggle('text-brand-primary', isScrolled);
+                        siteNameText.classList.toggle('text-white', !isScrolled);
+                    }
+                    if (mobileMenuButton) {
+                        mobileMenuButton.classList.toggle('text-brand-text', isScrolled);
+                        mobileMenuButton.classList.toggle('text-white', !isScrolled);
+                    }
+                    
+                    if (mobileMenu) {
+                        if (!isScrolled) {
+                            mobileMenu.style.backgroundColor = 'rgba(153, 125, 108, 0.95)';
+                        } else {
+                            mobileMenu.style.backgroundColor = ''; 
+                        }
+                        mobileMenuLinks.forEach(link => {
+                            link.classList.toggle('text-brand-text', isScrolled);
+                            link.classList.toggle('text-white', !isScrolled);
+                        });
+                    }
+                });
+                window.dispatchEvent(new Event('scroll')); // Aplica estado inicial
             }
 
-            mobileMenuLinks.forEach(link => {
-                link.classList.toggle('text-brand-text', isScrolled);
-                link.classList.toggle('text-white', !isScrolled);
-            });
-        });
 
-
-        // Mobile menu toggle
-        const hamburgerIcon = document.getElementById('hamburgerIcon');
-        const closeIcon = document.getElementById('closeIcon');
-
-        mobileMenuButton.addEventListener('click', () => {
-            const isExpanded = mobileMenuButton.getAttribute('aria-expanded') === 'true' || false;
-            mobileMenu.classList.toggle('hidden');
-            hamburgerIcon.classList.toggle('hidden');
-            closeIcon.classList.toggle('hidden');
-            mobileMenuButton.setAttribute('aria-expanded', !isExpanded);
-        });
-
-        // Close mobile menu when a link is clicked
-        document.querySelectorAll('#mobileMenu a').forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.add('hidden');
-                hamburgerIcon.classList.remove('hidden');
-                closeIcon.classList.add('hidden');
-                mobileMenuButton.setAttribute('aria-expanded', 'false');
-            });
-        });
-
-        // Logic for contact form (replaces alert with a modal)
-        const contactForm = document.getElementById('contactForm');
-        const confirmationModal = document.getElementById('confirmationModal');
-        const closeModalBtn = document.getElementById('closeModalBtn');
-
-        if (contactForm) {
-            contactForm.addEventListener('submit', function(event) {
-                event.preventDefault(); // Prevents default form submission
-
-                // Shows the modal
-                confirmationModal.classList.remove('hidden');
-                // Small delay for opacity transition to work
-                setTimeout(() => {
-                    confirmationModal.classList.add('show');
-                }, 10);
-
-                contactForm.reset(); // Clears the form
-            });
-        }
-
-       if (closeModalBtn) {
-            closeModalBtn.addEventListener('click', function() {
-                confirmationModal.classList.remove('show');
-                // Small delay for opacity transition to work before fully hiding
-                setTimeout(() => {
-                    confirmationModal.classList.add('hidden');
-                }, 300);
-            });
-        }
-
-
-        // FAQ accordion logic
-        document.querySelectorAll('#faq .border-b button').forEach(button => {
-            button.addEventListener('click', () => {
-                const content = document.getElementById(button.getAttribute('aria-controls'));
-                const isExpanded = button.getAttribute('aria-expanded') === 'true';
-                const chevron = button.querySelector('svg');
-
-                // Closes all other open FAQs
-                document.querySelectorAll('#faq .border-b button[aria-expanded="true"]').forEach(openButton => {
-                    if (openButton !== button) {
-                        openButton.setAttribute('aria-expanded', 'false');
-                        document.getElementById(openButton.getAttribute('aria-controls')).classList.add('hidden');
-                        openButton.querySelector('svg').classList.remove('rotate-180');
-                    }
+            const hamburgerIcon = document.getElementById('hamburgerIcon');
+            const closeIcon = document.getElementById('closeIcon');
+            if (mobileMenuButton && mobileMenu && hamburgerIcon && closeIcon) {
+                mobileMenuButton.addEventListener('click', () => {
+                    const isExpanded = mobileMenuButton.getAttribute('aria-expanded') === 'true' || false;
+                    mobileMenu.classList.toggle('hidden');
+                    hamburgerIcon.classList.toggle('hidden');
+                    closeIcon.classList.toggle('hidden');
+                    mobileMenuButton.setAttribute('aria-expanded', !isExpanded);
                 });
+                document.querySelectorAll('#mobileMenu a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        mobileMenu.classList.add('hidden');
+                        hamburgerIcon.classList.remove('hidden');
+                        closeIcon.classList.add('hidden');
+                        mobileMenuButton.setAttribute('aria-expanded', 'false');
+                    });
+                });
+            }
 
-                // Toggles the current FAQ
-                button.setAttribute('aria-expanded', !isExpanded);
-                content.classList.toggle('hidden');
-                chevron.classList.toggle('rotate-180');
-            });
-        });
+            const contactForm = document.getElementById('contactForm');
+            const confirmationModal = document.getElementById('confirmationModal');
+            const closeModalBtn = document.getElementById('closeModalBtn');
+            if (contactForm && confirmationModal && closeModalBtn) {
+                contactForm.addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    confirmationModal.classList.remove('hidden');
+                    setTimeout(() => { confirmationModal.classList.add('show'); }, 10);
+                    contactForm.reset();
+                });
+                closeModalBtn.addEventListener('click', function() {
+                    confirmationModal.classList.remove('show');
+                    setTimeout(() => { confirmationModal.classList.add('hidden'); }, 300);
+                });
+            }
 
-        // Calculator Logic
-        const calculableServicesContainer = document.getElementById('calculableServices');
-        const totalPriceDisplay = document.getElementById('totalPriceDisplay');
-
-        function renderCalculableServices() {
-            if (!calculableServicesContainer) return;
-            calculableServicesContainer.innerHTML = ''; // Clear previous content
-            calculableServicesData.forEach(service => {
-                const serviceDiv = document.createElement('div');
-                serviceDiv.className = 'p-4 border border-gray-200 rounded-lg transition-colors hover:bg-brand-bg-light/50 flex flex-col md:flex-row md:justify-between md:items-center';
-                serviceDiv.innerHTML = `
-                    <div class="mb-3 md:mb-0 md:flex-1 md:pr-4 text-center md:text-left">
-                        <span class="font-medium text-brand-text text-lg">${service.name}</span>
-                        <p class="text-xs text-brand-light-text mt-1">${service.description}</p>
-                        <p class="text-sm font-semibold text-brand-primary mt-1">R$ ${service.price.toFixed(2)} <span class="text-xs text-brand-light-text">/unidade ou hora</span></p>
-                    </div>
-                    <div class="flex items-center justify-center md:justify-end space-x-2 w-full md:w-auto">
-                        <button type="button" class="bg-gray-200 text-brand-text hover:bg-gray-300 p-1 rounded-md focus:outline-none h-10 w-10 flex items-center justify-center text-lg font-semibold transition-colors" aria-label="Diminuir quantidade de ${service.name}" data-action="decrement" data-service-id="${service.id}">
-                            -
-                        </button>
-                        <input type="number" class="w-16 text-center border border-gray-300 rounded-md h-10 focus:outline-none focus:ring-2 focus:ring-brand-accent focus:border-brand-accent service-quantity-input" aria-label="Quantidade de ${service.name}" min="0" value="0" data-price="${service.price}" data-service-id="${service.id}">
-                        <button type="button" class="bg-gray-200 text-brand-text hover:bg-gray-300 p-1 rounded-md focus:outline-none h-10 w-10 flex items-center justify-center text-lg font-semibold transition-colors" aria-label="Aumentar quantidade de ${service.name}" data-action="increment" data-service-id="${service.id}">
-                            +
-                        </button>
-                    </div>
-                `;
-                calculableServicesContainer.appendChild(serviceDiv);
-            });
-            addCalculatorEventListeners();
-            updateCalculatorTotalPrice(); // Initial calculation
-        }
-
-        function addCalculatorEventListeners() {
-            document.querySelectorAll('.service-quantity-input').forEach(input => {
-                input.addEventListener('change', updateCalculatorTotalPrice);
-                input.addEventListener('input', updateCalculatorTotalPrice); // For direct typing
-            });
-
-            document.querySelectorAll('[data-action]').forEach(button => {
-                button.addEventListener('click', (event) => {
-                    const serviceId = event.target.dataset.serviceId;
-                    const input = document.querySelector(`.service-quantity-input[data-service-id="${serviceId}"]`);
-                    if (!input) return;
-                    let currentValue = parseInt(input.value) || 0;
-
-                    if (event.target.dataset.action === 'increment') {
-                        input.value = currentValue + 1;
-                    } else if (event.target.dataset.action === 'decrement') {
-                        input.value = Math.max(0, currentValue - 1);
-                    }
-                    updateCalculatorTotalPrice();
+            document.querySelectorAll('#faq .border-b button').forEach(button => {
+                button.addEventListener('click', () => {
+                    const content = document.getElementById(button.getAttribute('aria-controls'));
+                    const isExpanded = button.getAttribute('aria-expanded') === 'true';
+                    const chevron = button.querySelector('svg');
+                    document.querySelectorAll('#faq .border-b button[aria-expanded="true"]').forEach(openButton => {
+                        if (openButton !== button) {
+                            openButton.setAttribute('aria-expanded', 'false');
+                            document.getElementById(openButton.getAttribute('aria-controls')).classList.add('hidden');
+                            openButton.querySelector('svg').classList.remove('rotate-180');
+                        }
+                    });
+                    button.setAttribute('aria-expanded', !isExpanded);
+                    content.classList.toggle('hidden');
+                    chevron.classList.toggle('rotate-180');
                 });
             });
-        }
 
-        function updateCalculatorTotalPrice() {
-            if (!totalPriceDisplay) return;
-            let total = 0;
-            document.querySelectorAll('.service-quantity-input').forEach(input => {
-                const quantity = parseInt(input.value) || 0;
-                const price = parseFloat(input.dataset.price);
-                if (!isNaN(quantity) && !isNaN(price)) {
-                    total += quantity * price;
-                }
-            });
-            totalPriceDisplay.textContent = `R$ ${total.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-        }
+            const calculableServicesData = [ /* Seus dados da calculadora aqui, se não estiverem já definidos globalmente */
+                { id: 'platform_management', name: 'Gerenciamento de Plataforma Social', price: 300, description: 'Gestão mensal por plataforma.' },
+                { id: 'content_creation_post', name: 'Criação de Post Avulso', price: 50, description: 'Design e legenda por post.' },
+                { id: 'content_creation_story', name: 'Criação de Story Avulso', price: 20, description: 'Design por story.' },
+                { id: 'short_video', name: 'Criação de Vídeo Curto (Reel/Tik Tok)', price: 150, description: 'Edição básica por vídeo.' },
+                { id: 'graphic_design_banner', name: 'Design de Capa/Banner para Perfil', price: 100, description: 'Arte por design de capa.' },
+                { id: 'strategic_consulting', name: 'Consultoria Estratégica', price: 250, description: 'Sessão por hora de consultoria.' },
+                { id: 'detailed_report', name: 'Relatório de Desempenho Detalhado Adicional', price: 200, description: 'Análise e relatório customizado por unidade.' }
+            ];
+            const calculableServicesContainer = document.getElementById('calculableServices');
+            const totalPriceDisplay = document.getElementById('totalPriceDisplay');
 
-        // Set current year in footer
-        const currentYearEl = document.getElementById('currentYear');
-        if (currentYearEl) {
-            currentYearEl.textContent = new Date().getFullYear();
-        }
-        
+            function renderCalculableServices() { /* Sua função renderCalculableServices */
+                if (!calculableServicesContainer) return;
+                calculableServicesContainer.innerHTML = '';
+                calculableServicesData.forEach(service => {
+                    const serviceDiv = document.createElement('div');
+                    serviceDiv.className = 'p-4 border border-gray-200 rounded-lg transition-colors hover:bg-brand-bg-light/50 flex flex-col md:flex-row md:justify-between md:items-center';
+                    serviceDiv.innerHTML = `
+                        <div class="mb-3 md:mb-0 md:flex-1 md:pr-4 text-center md:text-left">
+                            <span class="font-medium text-brand-text text-lg">${service.name}</span>
+                            <p class="text-xs text-brand-light-text mt-1">${service.description}</p>
+                            <p class="text-sm font-semibold text-brand-primary mt-1">R$ ${service.price.toFixed(2)} <span class="text-xs text-brand-light-text">/unidade ou hora</span></p>
+                        </div>
+                        <div class="flex items-center justify-center md:justify-end space-x-2 w-full md:w-auto">
+                            <button type="button" class="bg-gray-200 text-brand-text hover:bg-gray-300 p-1 rounded-md focus:outline-none h-10 w-10 flex items-center justify-center text-lg font-semibold transition-colors" aria-label="Diminuir quantidade de ${service.name}" data-action="decrement" data-service-id="${service.id}">-</button>
+                            <input type="number" class="w-16 text-center border border-gray-300 rounded-md h-10 focus:outline-none focus:ring-2 focus:ring-brand-accent focus:border-brand-accent service-quantity-input" aria-label="Quantidade de ${service.name}" min="0" value="0" data-price="${service.price}" data-service-id="${service.id}">
+                            <button type="button" class="bg-gray-200 text-brand-text hover:bg-gray-300 p-1 rounded-md focus:outline-none h-10 w-10 flex items-center justify-center text-lg font-semibold transition-colors" aria-label="Aumentar quantidade de ${service.name}" data-action="increment" data-service-id="${service.id}">+</button>
+                        </div>
+                    `;
+                    calculableServicesContainer.appendChild(serviceDiv);
+                });
+                addCalculatorEventListeners();
+                updateCalculatorTotalPrice();
+            }
+            function addCalculatorEventListeners() { /* Sua função addCalculatorEventListeners */
+                document.querySelectorAll('.service-quantity-input').forEach(input => {
+                    input.addEventListener('change', updateCalculatorTotalPrice);
+                    input.addEventListener('input', updateCalculatorTotalPrice);
+                });
+                document.querySelectorAll('[data-action]').forEach(button => {
+                    button.addEventListener('click', (event) => {
+                        const serviceId = event.target.dataset.serviceId;
+                        const input = document.querySelector(`.service-quantity-input[data-service-id="${serviceId}"]`);
+                        if (!input) return;
+                        let currentValue = parseInt(input.value) || 0;
+                        if (event.target.dataset.action === 'increment') {
+                            input.value = currentValue + 1;
+                        } else if (event.target.dataset.action === 'decrement') {
+                            input.value = Math.max(0, currentValue - 1);
+                        }
+                        updateCalculatorTotalPrice();
+                    });
+                });
+            }
+            function updateCalculatorTotalPrice() { /* Sua função updateCalculatorTotalPrice */
+                if (!totalPriceDisplay) return;
+                let total = 0;
+                document.querySelectorAll('.service-quantity-input').forEach(input => {
+                    const quantity = parseInt(input.value) || 0;
+                    const price = parseFloat(input.dataset.price);
+                    if (!isNaN(quantity) && !isNaN(price)) {
+                        total += quantity * price;
+                    }
+                });
+                totalPriceDisplay.textContent = `R$ ${total.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+            }
+            if (calculableServicesContainer && totalPriceDisplay) { // Garante que os elementos existam antes de chamar
+                renderCalculableServices();
+            }
 
-        // Initial render of calculable services when the DOM is ready
-        document.addEventListener('DOMContentLoaded', () => {
-            renderCalculableServices();
-            // Simulates a scroll event to apply the initial navbar state correctly
-            window.dispatchEvent(new Event('scroll'));
+
+            // --- INÍCIO DA LÓGICA DO CHATBOT MODAL ---
+            const openChatbotBtn = document.getElementById('openChatbotBtn');
+            const chatbotModal = document.getElementById('chatbotModal');
+            const closeChatbotModalBtn = document.getElementById('closeChatbotModalBtn');
+            const chatbotFrame = document.getElementById('chatbotFrame');
+            const chatbotHtmlFile = 'chatbot.html'; 
+
+            if (openChatbotBtn && chatbotModal && closeChatbotModalBtn && chatbotFrame) {
+                openChatbotBtn.addEventListener('click', () => {
+                    if (!chatbotFrame.getAttribute('src') || chatbotFrame.getAttribute('src') === 'about:blank' || chatbotFrame.getAttribute('src') === '') {
+                        chatbotFrame.setAttribute('src', chatbotHtmlFile);
+                    }
+                    chatbotModal.classList.remove('hidden');
+                    setTimeout(() => { chatbotModal.classList.add('show'); }, 10);
+                });
+
+                closeChatbotModalBtn.addEventListener('click', () => {
+                    chatbotModal.classList.remove('show');
+                    setTimeout(() => {
+                        chatbotModal.classList.add('hidden');
+                        // chatbotFrame.setAttribute('src', 'about:blank'); // Opcional: resetar iframe
+                    }, 300);
+                });
+
+                chatbotModal.addEventListener('click', function(event) {
+                    if (event.target === chatbotModal) {
+                        closeChatbotModalBtn.click();
+                    }
+                });
+            } else {
+                console.warn("Elementos do chatbot modal não encontrados. Verifique os IDs no HTML.");
+            }
+            // --- FIM DA LÓGICA DO CHATBOT MODAL ---
+
+            const currentYearEl = document.getElementById('currentYear');
+            if (currentYearEl) { currentYearEl.textContent = new Date().getFullYear(); }
         });
     </script>
 </body>
